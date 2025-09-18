@@ -1,6 +1,17 @@
-import express from 'express'
-import { createReview } from '../controllers/reviewController'
+import express from "express";
+import {
+  createReview,
+  deleteReview,
+  listReviewsByProductId,
+  updateReview,
+} from "../controllers/reviewController";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/', createReview)
+router.post("/:productId", createReview);
+
+router.get("/:productId", listReviewsByProductId);
+
+router.put("/review/:reviewId", updateReview);
+
+router.delete("/review/:reviewId", deleteReview);
