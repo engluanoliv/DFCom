@@ -3,6 +3,7 @@ import Review from "../models/Review.js";
 
 export const createProduct = async (req, res) => {
   try {
+    console.log('veio aqui')
     const { name, description, price, category } = req.body;
     if (!name || !description || !price || !category) {
       return res.status(400).json({ message: "All fields are required." });
@@ -26,6 +27,7 @@ export const createProduct = async (req, res) => {
 export const listProducts = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
+    console.log('aq')
     res.status(200).json(products);
   } catch (error) {
     console.error("Error getting products", error.message);
@@ -68,7 +70,7 @@ export const updateProduct = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json(updateProduct);
+    res.status(200).json(updatedProduct);
   } catch (error) {
     console.error("Error updating product", error.message);
     res.status(500).json({ message: "Internal server error" });

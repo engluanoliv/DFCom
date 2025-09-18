@@ -5,13 +5,13 @@ import { connectDb } from "./lib/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 
+const app = express();
+app.use(cors());
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5500;
 
 app.use(express.json());
-app.use(cors());
 
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
