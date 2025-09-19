@@ -20,17 +20,17 @@ import {
 } from "../ui/select";
 import type { ProductSchemaType } from "@/schemas/schemas";
 
-type AddProductModalFormProps = {
+type ProductModalFormProps = {
   form: UseFormReturn<ProductSchemaType>;
   onSubmit: SubmitHandler<ProductSchemaType>;
   isSubmitting: boolean;
 };
 
-export default function AddProductModalForm({
+export default function ProductModalForm({
   form,
   isSubmitting,
   onSubmit,
-}: AddProductModalFormProps) {
+}: ProductModalFormProps) {
   return (
     <Form {...form}>
       <form

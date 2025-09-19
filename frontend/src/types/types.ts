@@ -3,7 +3,7 @@ export type Product = {
   name: string;
   description: string;
   price: number;
-  category: "eletronicos" | "roupas" | "livros" | string;
+  category: "eletronicos" | "roupas" | "livros";
   createdAt: Date;
 };
 
