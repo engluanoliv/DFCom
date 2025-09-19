@@ -15,7 +15,7 @@ export default function AddProductModal(): JSX.Element {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Novo Produto</Button>
+          <Button className="justify-self-end">Novo Produto</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
