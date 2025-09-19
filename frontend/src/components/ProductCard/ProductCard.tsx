@@ -38,13 +38,13 @@ export default function ProductCard({
               <EllipsisVertical className="h-5 w-5 cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onDetails(product._id!)}>
+              <DropdownMenuItem onClick={() => onDetails(product._id)}>
                 Detalhes
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onEdit(product)}>
                 Editar
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(product._id!)}>
+              <DropdownMenuItem onClick={() => onDelete(product._id)}>
                 Excluir
               </DropdownMenuItem>
             </DropdownMenuContent>

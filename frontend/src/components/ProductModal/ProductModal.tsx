@@ -57,9 +57,7 @@ export default function ProductModal({
   }, [isModalOpen, product, reset]);
 
   const onSubmit = async (values: ProductSchemaType) => {
-    if (product) {
-      await onSave(values, product);
-    }
+    await onSave(values, product ?? undefined);
   };
   return (
     <>

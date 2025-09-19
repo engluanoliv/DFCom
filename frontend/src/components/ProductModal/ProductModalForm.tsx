@@ -127,7 +127,7 @@ export default function ProductModalForm({
           <Button
             type="submit"
             className="hover:cursor-pointer"
-            disabled={isSubmitting}
+            disabled={!form.formState.isValid || isSubmitting}
           >
             {isSubmitting ? "Adicionando..." : "Adicionar"}
           </Button>

@@ -1,58 +1,56 @@
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
+import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import api from "@/config/axios";
-import type { Product, Review } from "@/types/types";
+import { useProduct } from "@/hooks/useProduct";
+import type { ReviewSchemaType } from "@/schemas/schemas";
+import type { Review } from "@/types/types";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [reviews, setReviews] = useState<Review[] | null>(null);
-  const [reviewsLoading, setReviewsLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { product, reviews, isLoading, reviewsLoading, fetchProductReviews } =
+    useProduct(id ?? "");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<Review | undefined>(
+    undefined
+  );
 
-  useEffect(() => {
-    if (id) {
-      fetchProductDetails(id);
-      fetchProductReviews(id);
-    }
-  }, [id]);
+  const handleOpenModal = (review?: Review) => {
+    setSelectedReview(review);
+    setIsModalOpen(true);
+  };
 
-  // AQUI EU PODERIA TRAZER OS REVIEWS JUNTO COM AS INFORMACOES DO PRODUTO, MAS ESCOLHI FAZER A REQUISIÇÃO SEPARADA
-  const fetchProductDetails = async (productId: string) => {
-    setIsLoading(true);
+  const handleSaveReview = async (
+    values: ReviewSchemaType,
+    review?: Review
+  ) => {
     try {
-      const response = await api
-        .get(`/products/${productId}`)
-        .then((res) => res.data);
-      setProduct(response);
+      if (review) {
+        await api.put(`/reviews/review/${review._id}`, values);
+        toast.success("Avaliação atualizada 📝");
+      } else {
+        await api.post(`/reviews/${id}`, values);
+        toast.success("Avaliação criada 🥳");
+      }
+      fetchProductReviews(id ?? "");
     } catch (error) {
-      console.error("Failed to fetch product details:", error);
-      toast.error("Erro ao carregar os detalhes do produto");
-    } finally {
-      setIsLoading(false);
+      toast.error("Erro ao salvar avaliação");
+      console.error(error);
     }
   };
 
-  // REQUISIÇÃO SEPARADA PARA FAZER O FETCH NOS REVIEWS
-  const fetchProductReviews = async (productId: string) => {
-    setReviewsLoading(true);
-    try {
-      const response = await api
-        .get(`/reviews/${productId}`)
-        .then((res) => res.data);
-      setReviews(response);
-    } catch (error) {
-      console.error("Failed to fetch reviews:", error);
-      toast.error("Erro ao carregar avaliações");
-    } finally {
-      setReviewsLoading(false);
-    }
+  const handleEditReview = (review: Review) => {
+    console.log(review);
+  };
+
+  const handleDeleteReview = (reviewId: string) => {
+    console.log(reviewId);
   };
 
   if (isLoading) {
@@ -94,7 +92,10 @@ export default function ProductDetailsPage(): JSX.Element {
             {product.description}
           </p>
         </div>
-        <Button className="bg-green-600 w-fit self-end sm:self-center">
+        <Button
+          onClick={() => handleOpenModal()}
+          className="bg-green-600 w-fit self-end sm:self-center"
+        >
           Nova Avaliação
         </Button>
       </div>
@@ -102,7 +103,7 @@ export default function ProductDetailsPage(): JSX.Element {
       <Separator />
 
       {/* List of Reviews */}
-      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-14">
         {reviewsLoading ? (
           <div className="min-h-[200px] flex items-center justify-center">
             <p className="text-center font-semibold text-lg pr-2">
@@ -119,11 +120,27 @@ export default function ProductDetailsPage(): JSX.Element {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {reviews?.map((review) => (
-              <ReviewCard key={review?._id} review={review} />
+              <ReviewCard
+                onDelete={handleDeleteReview}
+                onEdit={handleEditReview}
+                key={review?._id}
+                review={review}
+              />
             ))}
           </div>
         )}
       </div>
+
+      {/* Review Modal */}
+      {id && (
+        <ReviewModal
+          isOpen={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          productId={id}
+          onSave={handleSaveReview}
+          review={selectedReview}
+        />
+      )}
     </>
   );
 }
