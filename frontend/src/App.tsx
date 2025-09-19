@@ -1,10 +1,9 @@
-import "./App.css";
 import ProductList from "./components/ProductList";
 
 function App() {
   return (
     <div>
-      <h1>Produtos & Avaliações</h1>
+      <h1 className="text-3xl">Produtos & Avaliações</h1>
       <ProductList />
     </div>
   );
