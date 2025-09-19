@@ -9,27 +9,37 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { EllipsisVertical, Trash2 } from "lucide-react";
+import { formatCurrencyBRL } from "@/utils/formatCurrency";
 
 type ProductTableColumnProps = {
   onEdit: (product: Product) => void;
+  onDelete: (productId: string) => void;
+  onDetails: (productId: string) => void;
+  hasProducts: boolean;
 };
 
 export const ProductTableColumn = ({
   onEdit,
+  onDelete,
+  onDetails,
+  hasProducts,
 }: ProductTableColumnProps): ColumnDef<Product>[] => [
   {
     id: "select",
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        />
-      </div>
-    ),
+    header: ({ table }) =>
+      hasProducts && (
+        <div className="flex items-center justify-center">
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+          />
+        </div>
+      ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
         <Checkbox
@@ -57,12 +67,9 @@ export const ProductTableColumn = ({
     header: "Preço",
     cell: ({ row }: { row: any }) => {
       const price = parseFloat(row.getValue("price"));
-      const formattedPrice = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(price);
+      const formattedPrice = formatCurrencyBRL(price);
 
-      return <div className="text-left">R$ {formattedPrice}</div>;
+      return <div className="text-left">{formattedPrice}</div>;
     },
     size: 150,
   },
@@ -100,10 +107,22 @@ export const ProductTableColumn = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onEdit(row.original)}>
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => onDetails(row.original._id)}
+            >
+              Detalhes
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => onEdit(row.original)}
+            >
               Editar
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">
+            <DropdownMenuItem
+              className="text-red-600 hover:cursor-pointer"
+              onClick={() => onDelete(row.original._id)}
+            >
               Remover <Trash2 />
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -1,5 +1,3 @@
-import api from "@/config/axios";
-import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { useEffect, type JSX } from "react";
 import { productSchema, type ProductSchemaType } from "@/schemas/schemas";
@@ -10,7 +8,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
 import ProductModalForm from "./ProductModalForm";
 import type { Product } from "@/types/types";
@@ -18,15 +15,15 @@ import type { Product } from "@/types/types";
 type ProductModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  refetchProducts: () => void;
   product?: Product;
+  onSave: (values: ProductSchemaType, product?: Product) => Promise<void>;
 };
 
 export default function ProductModal({
   isModalOpen,
   setIsModalOpen,
-  refetchProducts,
   product,
+  onSave,
 }: ProductModalProps): JSX.Element {
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(productSchema),
@@ -60,27 +57,12 @@ export default function ProductModal({
   }, [isModalOpen, product, reset]);
 
   const onSubmit = async (values: ProductSchemaType) => {
-    try {
-      if (product) {
-        await api
-          .put(`/products/${product._id}`, values)
-          .then((res) => res.data);
-      } else {
-        await api.post("/products", values).then((res) => res.data);
-      }
-      refetchProducts();
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Failed to add product:", error);
-    }
+    await onSave(values, product);
   };
   return (
     <>
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogTrigger asChild>
-          <Button className="place-self-end w-fit">Novo Produto</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="sm:max-w-[400px] rounded-lg">
           <DialogHeader>
             <DialogTitle>
               {product ? "Editar Produto" : "Novo Produto"}

@@ -27,14 +27,7 @@ export const createReview = async (req, res) => {
 export const listReviewsByProductId = async (req, res) => {
   try {
     const { productId } = req.params;
-    const reviews = Review.find({ productId }).sort({ createdAt: -1 });
-
-    if (!reviews) {
-      return res
-        .status(400)
-        .json({ message: "No reviews are found for this product" });
-    }
-
+    const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
     res.status(200).json(reviews);
   } catch (error) {
     console.error("Error fetching reviews", error);
