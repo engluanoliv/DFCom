@@ -11,3 +11,12 @@ export const productSchema = z.object({
 });
 
 export type ProductSchemaType = z.infer<typeof productSchema>;
+
+export const reviewSchema = z.object({
+  productId: z.string().min(1),
+  author: z.string().min(1, "Seu nome é obrigatório"),
+  rating: z.number().min(1).max(5),
+  comment: z.string().min(1, "Comentário obrigatório"),
+});
+
+export type ReviewSchemaType = z.infer<typeof reviewSchema>;

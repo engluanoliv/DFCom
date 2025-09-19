@@ -1,7 +1,7 @@
 import { useEffect, useState, type JSX } from "react";
 import type { Product } from "../types/types";
 import api from "@/config/axios";
-import AddProductModal from "./AddProductModal";
+import AddProductModal from "./ProductModal/AddProductModal";
 
 export default function ProductList(): JSX.Element {
   const [products, setProducts] = useState<Product[]>();
