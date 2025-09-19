@@ -93,7 +93,10 @@ export default function ProductModalForm({
             <FormItem>
               <FormLabel>Categoria</FormLabel>
               <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value ?? ""}
+                  onValueChange={field.onChange}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione uma categoria" />
                   </SelectTrigger>
@@ -113,13 +116,18 @@ export default function ProductModalForm({
 
         <DialogFooter className="mt-4 flex justify-end gap-2">
           <DialogClose asChild>
-            <Button type="button" variant="outline">
+            <Button
+              type="button"
+              className="hover:cursor-pointer"
+              variant="outline"
+            >
               Cancelar
             </Button>
           </DialogClose>
           <Button
             type="submit"
-            disabled={!form.formState.isValid || isSubmitting}
+            className="hover:cursor-pointer"
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Adicionando..." : "Adicionar"}
           </Button>

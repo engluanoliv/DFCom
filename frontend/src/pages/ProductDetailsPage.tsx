@@ -1,8 +1,9 @@
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import api from "@/config/axios";
 import type { Product, Review } from "@/types/types";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -68,30 +69,59 @@ export default function ProductDetailsPage(): JSX.Element {
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}
-          className="mb-4 !ps-0 text-sm"
+          className="mb-4 !ps-0 text-sm hover:cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4 mr-2" /> Voltar
         </Button>
       </div>
 
-      <div className="flex w-full justify-between items-center">
-        <div className="flex flex-col items-start text-[16px]">
-          <h1 className="text-xl font-bold">Produto: {product.name}</h1>
-          <p>Preço:R$ {product.price.toFixed(2)}</p>
-          <p>Categoria:{product.category}</p>
-          <p>Descrição:{product.description}</p>
+      <div className="flex flex-col sm:flex-row w-full justify-between items-center py-6 gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-start text-[16px] w-fit gap-2">
+          <h1 className="text-lg text-left font-semibold text-wrap line-clamp-1">
+            <span className="text-semibold">Produto: </span>
+            {product.name}
+          </h1>
+          <p className="text-sm text-left capitalize">
+            <span className="font-semibold">Preço: </span>R$
+            {product.price.toFixed(2)}
+          </p>
+          <p className="text-sm text-left capitalize">
+            <span className="font-semibold">Categoria: </span>
+            {product.category}
+          </p>
+          <p className="text-sm text-left capitalize max-w-lg">
+            <span className="font-semibold">Descrição: </span>
+            {product.description}
+          </p>
         </div>
-        <Button className="bg-green-600">Nova Avaliação</Button>
+        <Button className="bg-green-600 w-fit self-end sm:self-center">
+          Nova Avaliação
+        </Button>
       </div>
 
+      <Separator />
+
       {/* List of Reviews */}
-      <div className="container">
+      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {reviewsLoading ? (
-          <p>Carregando avaliações...</p>
+          <div className="min-h-[200px] flex items-center justify-center">
+            <p className="text-center font-semibold text-lg pr-2">
+              Carregando avaliações
+            </p>
+            <Loader2 className="animate-spin" />
+          </div>
         ) : reviews?.length === 0 ? (
-          <p>Nenhuma avaliação ainda.</p>
+          <div className="min-h-[200px] flex items-center justify-center">
+            <p className="text-center font-semibold text-lg">
+              Nenhuma avaliação ainda.
+            </p>
+          </div>
         ) : (
-          reviews?.map((review) => <ReviewCard review={review} />)
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {reviews?.map((review) => (
+              <ReviewCard key={review?._id} review={review} />
+            ))}
+          </div>
         )}
       </div>
     </>

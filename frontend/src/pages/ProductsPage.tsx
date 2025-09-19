@@ -35,25 +35,32 @@ export default function ProductsPage() {
   const hasProducts = !!products?.length;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col w-full gap-14 pt-28">
       <ProductModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         product={selectedProduct}
         onSave={handleSave}
       />
-
-      <div className="flex gap-2 self-end">
-        <Button
-          variant="destructive"
-          className="self-start"
-          onClick={handleDeleteSelectedRows}
-          disabled={!Object.keys(rowSelection).length}
-        >
-          <Trash2 className="mr-2 h-4 w-4" />
-          Excluir selecionados
-        </Button>
-        <Button onClick={() => setIsModalOpen(true)}>Novo Produto</Button>
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+        <h1 className="text-4xl font-normal text-[#737373]">Produtos</h1>
+        <div className="flex gap-2 sm:self-end">
+          <Button
+            variant="destructive"
+            className="self-start hidden sm:flex"
+            onClick={handleDeleteSelectedRows}
+            disabled={!Object.keys(rowSelection).length}
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Excluir selecionados
+          </Button>
+          <Button
+            className="w-fit bg-green-600"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Novo Produto
+          </Button>
+        </div>
       </div>
 
       <div className="hidden md:block">
@@ -72,7 +79,13 @@ export default function ProductsPage() {
 
       <div className="flex flex-col md:hidden">
         {products?.map((product) => (
-          <ProductCard key={product._id} product={product} onEdit={() => {}} />
+          <ProductCard
+            key={product._id}
+            product={product}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onDetails={handleDetails}
+          />
         ))}
       </div>
     </div>

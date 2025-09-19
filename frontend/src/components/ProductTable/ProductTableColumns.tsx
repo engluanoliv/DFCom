@@ -8,8 +8,10 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { EllipsisVertical, Trash2 } from "lucide-react";
+import { Edit, EllipsisVertical, Info, Trash2 } from "lucide-react";
 import { formatCurrencyBRL } from "@/utils/formatCurrency";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Separator } from "../ui/separator";
 
 type ProductTableColumnProps = {
   onEdit: (product: Product) => void;
@@ -97,33 +99,46 @@ export const ProductTableColumn = ({
     cell: ({ row }) => {
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 hover:cursor-pointer"
-            >
-              <span className="sr-only">Editar</span>
-              <EllipsisVertical />
-            </Button>
-          </DropdownMenuTrigger>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="h-8 w-8 p-0 hover:cursor-pointer"
+                >
+                  <EllipsisVertical />
+                </Button>
+              </DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent align="start" className="text-xs">
+              <p>Ações</p>
+            </TooltipContent>
+          </Tooltip>
+
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               className="hover:cursor-pointer"
               onClick={() => onDetails(row.original._id)}
             >
-              Detalhes
+              <Info /> Detalhes
             </DropdownMenuItem>
+
+            <Separator />
+
             <DropdownMenuItem
               className="hover:cursor-pointer"
               onClick={() => onEdit(row.original)}
             >
-              Editar
+              <Edit /> Editar
             </DropdownMenuItem>
+
+            <Separator />
+
             <DropdownMenuItem
               className="text-red-600 hover:cursor-pointer"
               onClick={() => onDelete(row.original._id)}
             >
-              Remover <Trash2 />
+              <Trash2 /> Remover
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

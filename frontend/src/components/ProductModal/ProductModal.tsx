@@ -15,7 +15,7 @@ import type { Product } from "@/types/types";
 type ProductModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  product?: Product;
+  product: Product | null;
   onSave: (values: ProductSchemaType, product?: Product) => Promise<void>;
 };
 
@@ -57,7 +57,9 @@ export default function ProductModal({
   }, [isModalOpen, product, reset]);
 
   const onSubmit = async (values: ProductSchemaType) => {
-    await onSave(values, product);
+    if (product) {
+      await onSave(values, product);
+    }
   };
   return (
     <>

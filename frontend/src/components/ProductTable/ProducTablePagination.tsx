@@ -23,7 +23,7 @@ export default function ProductTablePagination<TData>({
 }: ProductTablePaginationProps<TData>) {
   return (
     <>
-      <div className="flex justify-end p-4">
+      <div className="flex justify-end p-4 bg-card">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
