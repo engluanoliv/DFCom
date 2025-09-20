@@ -1,8 +1,8 @@
 import type { Review } from "@/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardAction, CardContent, CardHeader } from "../ui/card";
 import { StarRating } from "../ui/star-rating";
-import { Calendar, EllipsisVertical } from "lucide-react";
+import { Calendar, Edit, EllipsisVertical, Trash2 } from "lucide-react";
 import { formatDateBR } from "@/utils/formatDate";
 import {
   DropdownMenu,
@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Skeleton } from "../ui/skeleton";
 
 type ReviewCardProps = {
   review: Review;
@@ -27,47 +28,48 @@ export default function ReviewCard({
   const avatarUrl = `${DICEBEAR_URL}?seed=${randomSeed}`;
   return (
     <>
-      <Card className="w-[320px] h-[250px] relative">
-        {/* Actions */}
-        <div className="absolute top-2 right-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="hover:cursor-pointer">
-              <EllipsisVertical className="h-5 w-5" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={() => onEdit(review)}
-              >
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={() => onDelete(review._id)}
-              >
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        <CardContent className="flex flex-col w-full h-full gap-4 p-6">
-          <div className="flex items-center justify-between">
-            <Avatar className="rounded-full size-16 border border-[#E5E7EB]">
+      <Card className="w-[280px] h-[190px] justify-self-center">
+        <CardHeader className="px-2 pt-2.5 pb-1">
+          <div className="flex gap-4 items-center text-left">
+            <Avatar className="rounded-full size-16 border border-gray-200">
               <AvatarImage src={avatarUrl} />
-              <AvatarFallback>{review.author}</AvatarFallback>
+              <AvatarFallback>
+                <Skeleton />
+              </AvatarFallback>
             </Avatar>
-            <StarRating rating={review.rating} />
-          </div>
-          <div className="flex flex-col justify-between text-start gap-2 flex-1">
-            <div>
-              <p className="text-sm capitalize font-semibold">
-                {review.author}
-              </p>
-              <p className="text-sm capitalize line-clamp-3">
-                {review.comment}
-              </p>
+            <div className="flex flex-col justify-between">
+              <p className="font-semibold text-sm">{review.author}</p>
+              <StarRating rating={review.rating} />
             </div>
+          </div>
+          <CardAction>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="hover:cursor-pointer">
+                <EllipsisVertical className="h-5 w-5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  className="hover:cursor-pointer font-light py-2"
+                  onClick={() => onEdit(review)}
+                >
+                  <Edit /> Editar
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-red-600 hover:cursor-pointer font-light py-2"
+                  onClick={() => onDelete(review._id)}
+                >
+                  <Trash2 /> Remover
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </CardAction>
+        </CardHeader>
+
+        <CardContent className="flex flex-col w-full gap-4 flex-1">
+          <div className="flex flex-col justify-between text-start gap-2 flex-1">
+            <p className="text-sm capitalize line-clamp-3 flex-1">
+              {review.comment}
+            </p>
             <span className="flex gap-1 items-center text-[#64748B]">
               <Calendar className="size-4" />
               <p className="text-sm font-light">

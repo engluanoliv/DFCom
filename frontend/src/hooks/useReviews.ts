@@ -13,7 +13,7 @@ export const useReviews = (productId?: string) => {
     setIsLoading(true);
     try {
       const response = await api
-        .get(`/reviews/${productId}`)
+        .get(`/products/${productId}/reviews`)
         .then((res) => res.data);
       setReviews(response);
     } catch (error) {
@@ -28,10 +28,10 @@ export const useReviews = (productId?: string) => {
     if (!productId) return;
     try {
       if (review) {
-        await api.put(`/reviews/review/${review._id}`, values);
+        await api.put(`/reviews/${review._id}`, values);
         toast.success("Avaliação atualizada 📝");
       } else {
-        await api.post(`/reviews/${productId}`, values);
+        await api.post(`/products/${productId}/reviews`, values);
         toast.success("Avaliação criada 🥳");
       }
       await fetchReviews();
@@ -43,7 +43,7 @@ export const useReviews = (productId?: string) => {
 
   const deleteReview = async (reviewId: string) => {
     try {
-      await api.delete(`/reviews/review/${reviewId}`);
+      await api.delete(`/reviews/${reviewId}`);
       toast.success("Avaliação excluída 🗑️");
       await fetchReviews();
     } catch (error) {

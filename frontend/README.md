@@ -1,69 +1,121 @@
-# React + TypeScript + Vite
+# 🛒 Product Review App – Full Stack Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was developed as part of the **DFcom Sistemas Technical Challenge**.  
+It provides a full stack application for **managing products** and their **reviews**.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Backend
+- **Node.js** + **Express**
+- **MongoDB** + **Mongoose**
+- REST API with CRUD endpoints for **Products** and **Reviews**
+- Aggregation pipeline to calculate the **average rating** of a product
 
-## Expanding the ESLint configuration
+### Frontend
+- **React 18** with **TypeScript**
+- **Vite** (chosen for simplicity and speed in this challenge)
+- **React Router** for navigation
+- **Axios** for API communication
+- Componentized interface for products and reviews management
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+> 💡 Note: I chose **Vite** for the frontend since the challenge requires React with Hooks.  
+In a real-world SaaS application, I could also use **Next.js** to handle SSR/SEO and API routes in the same codebase.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Bonus
+- **Docker Compose** setup with:
+  - MongoDB
+  - Backend
+  - Frontend
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📦 Features
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Products
+- Create a new product
+- List all products
+- Update a product
+- Delete a product
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Reviews
+- Create a new review for a product
+- List all reviews of a specific product
+- Update a review
+- Delete a review
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Extra
+- Get the **average rating** of a product using MongoDB aggregation
+
+---
+
+## 📂 Project Structure
+
+.
+├── backend/        # Express + MongoDB API
+│   ├── models/     # Product & Review schemas
+│   ├── routes/     # API routes
+│   └── server.ts   # Express server
+│
+├── frontend/       # React + Vite app
+│   ├── src/
+│   │   ├── components/  # Reusable UI components
+│   │   ├── pages/       # Products, ProductDetails, Reviews
+│   │   └── services/    # Axios API services
+│   └── vite.config.ts
+│
+└── docker-compose.yml
+
+---
+
+## 🖥 Running locally
+
+### Prerequisites
+- Node.js >= 18
+- Docker (optional, for containerized setup)
+- MongoDB (if running without Docker)
+
+### 1. Clone the repository
+git clone https://github.com/<your-username>/product-review-app.git
+cd product-review-app
+
+### 2. Run backend
+cd backend
+npm install
+npm run dev
+
+Backend will run at: **http://localhost:5000**
+
+### 3. Run frontend
+cd frontend
+npm install
+npm run dev
+
+Frontend will run at: **http://localhost:5173**
+
+---
+
+## 🐳 Docker Setup (bonus)
+
+To run the whole stack with one command:
+docker-compose up --build
+
+- Frontend → http://localhost:5173  
+- Backend → http://localhost:5000  
+- MongoDB → mongodb://mongo:27017
+
+---
+
+## ✅ Challenge Requirements Covered
+- [x] CRUD for Products
+- [x] CRUD for Reviews
+- [x] Relationship between Product ↔ Reviews
+- [x] Endpoint to calculate product average rating
+- [x] React frontend with Hooks and componentization
+- [x] Organized project structure
+- [x] Docker Compose for full stack setup (bonus)
+
+---
+
+## 📤 Delivery
+The project code is hosted in this public GitHub repository.  
+To run locally, follow the instructions above.

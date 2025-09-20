@@ -1,18 +1,16 @@
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { product, isLoading } = useProduct(id ?? "");
   const {
     reviews,
@@ -56,19 +54,10 @@ export default function ProductDetailsPage(): JSX.Element {
   }
 
   return (
-    <>
-      <div className="w-full flex items-center justify-items-start">
-        <Button
-          variant="ghost"
-          onClick={() => navigate(-1)}
-          className="mb-4 !ps-0 text-sm hover:cursor-pointer"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" /> Voltar
-        </Button>
-      </div>
-
+    <div className="max-w-[1280px] mx-auto">
+      {/* Product Details */}
       <div className="flex flex-col sm:flex-row w-full justify-between items-center py-6 gap-4 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-start text-[16px] w-fit gap-2">
+        {/* <div className="flex flex-col items-start text-[16px] w-fit gap-2">
           <h1 className="text-lg text-left font-semibold text-wrap line-clamp-1">
             <span className="text-semibold">Produto: </span>
             {product.name}
@@ -85,7 +74,7 @@ export default function ProductDetailsPage(): JSX.Element {
             <span className="font-semibold">Descrição: </span>
             {product.description}
           </p>
-        </div>
+        </div> */}
         <Button
           onClick={() => handleOpenModal()}
           className="bg-green-600 w-fit self-end sm:self-center"
@@ -94,10 +83,8 @@ export default function ProductDetailsPage(): JSX.Element {
         </Button>
       </div>
 
-      <Separator />
-
       {/* List of Reviews */}
-      <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div className="w-full  lg:px-8 py-14">
         {reviewsLoading ? (
           <div className="min-h-[200px] flex items-center justify-center">
             <p className="text-center font-semibold text-lg pr-2">
@@ -112,7 +99,7 @@ export default function ProductDetailsPage(): JSX.Element {
             </p>
           </div>
         ) : (
-          <div className="flex items-center gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {reviews?.map((review) => (
               <ReviewCard
                 onDelete={handleDeleteReview}
@@ -135,6 +122,6 @@ export default function ProductDetailsPage(): JSX.Element {
           review={selectedReview}
         />
       )}
-    </>
+    </div>
   );
 }

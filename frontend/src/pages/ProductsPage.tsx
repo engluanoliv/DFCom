@@ -26,7 +26,7 @@ export default function ProductsPage() {
   } = useProducts();
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [productId, setProductId] = useState("");
 
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
@@ -37,34 +37,24 @@ export default function ProductsPage() {
     navigate(`/products/${productId}`);
   };
 
-  const confirmDelete = (productId: string) => {
-    setProductToDelete(productId);
+  const noname = (productId: string) => {
+    setProductId(productId);
     setIsAlertOpen(true);
   };
 
   const handleConfirmDelete = async () => {
-    if (productToDelete) {
-      await handleDelete(productToDelete);
-      setProductToDelete(null);
-      setIsAlertOpen(false);
-    }
+    await handleDelete(productId);
+    setIsAlertOpen(false);
   };
 
-  const hasProducts = !!products?.length;
+  const hasProducts = products?.length > 0;
 
   return (
     <div className="flex flex-col gap-14 pt-28 max-w-5xl mx-auto">
-      {/* Modal to add or update Product */}
-      <ProductModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        product={selectedProduct}
-        onSave={handleSave}
-      />
-
-      {/* Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
         <h1 className="text-4xl font-normal text-[#737373]">Produtos</h1>
+
+        {/* Buttons */}
         <div className="flex gap-2 sm:self-end">
           <Button
             variant="destructive"
@@ -84,13 +74,13 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Table for Desktop view */}
+      {/* List Products for Desktop view */}
       <div className="hidden sm:block">
         <ProductTable
           data={products || []}
           columns={ProductTableColumn({
             onEdit: handleEdit,
-            onDelete: confirmDelete,
+            onDelete: noname,
             onDetails: handleDetails,
             hasProducts,
           })}
@@ -99,18 +89,26 @@ export default function ProductsPage() {
         />
       </div>
 
-      {/* Cards for mobile view */}
-      <div className="flex flex-col sm:hidden">
+      {/* List Products for mobile view */}
+      <div className="flex gap-4 flex-wrap sm:hidden">
         {products?.map((product) => (
           <ProductCard
             key={product._id}
             product={product}
             onEdit={handleEdit}
-            onDelete={confirmDelete}
+            onDelete={noname}
             onDetails={handleDetails}
           />
         ))}
       </div>
+
+      {/* Modal to add or update Product */}
+      <ProductModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        product={selectedProduct}
+        onSave={handleSave}
+      />
 
       {/* Confirm Modal */}
       <ConfirmDeleteModal

@@ -18,11 +18,11 @@ export const StarRating = ({ className, rating }: StarRatingProps) => {
             key={index}
             className="relative flex items-center justify-center"
           >
-            <Star className="size-4 fill-border stroke-border" />
+            <Star className="size-6 fill-border stroke-border" />
 
             {starFillPercentage > 0 && (
               <Star
-                className="absolute top-0 left-0 size-4 fill-yellow-300 stroke-yellow-300"
+                className="absolute top-0 left-0 size-6 fill-yellow-300 stroke-yellow-300"
                 style={{
                   clipPath: `inset(0 ${100 - starFillPercentage}% 0 0)`,
                 }}

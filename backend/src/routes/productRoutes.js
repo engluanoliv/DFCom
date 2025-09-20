@@ -6,17 +6,32 @@ import {
   listProducts,
   updateProduct,
 } from "../controllers/productController.js";
+import {
+  createReview,
+  listReviewsByProductId,
+} from "../controllers/reviewController.js";
 
 const router = express.Router();
 
+// Create a Product
 router.post("/", createProduct);
 
+// List all Products
 router.get("/", listProducts);
 
-router.get("/:id", getProduct);
+// Get product by productId
+router.get("/:productId", getProduct);
 
-router.put("/:id", updateProduct);
+//Update Product
+router.put("/:productId", updateProduct);
 
-router.delete("/:id", deleteProduct);
+// Delete Product
+router.delete("/:productId", deleteProduct);
+
+// List all Reviews by productId
+router.get("/:productId/reviews", listReviewsByProductId);
+
+// Create Review
+router.post("/:productId/reviews", createReview);
 
 export default router;

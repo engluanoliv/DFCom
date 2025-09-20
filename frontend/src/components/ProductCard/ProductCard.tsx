@@ -1,8 +1,8 @@
 import type { Product } from "@/types/types";
 import {
   Card,
+  CardAction,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "../ui/card";
@@ -13,7 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
+import { Edit, EllipsisVertical, Info, Trash2 } from "lucide-react";
+import { Separator } from "../ui/separator";
 
 type ProductCardProps = {
   product: Product;
@@ -30,36 +31,48 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <>
-      <Card className="mb-4 h-full flex flex-col justify-between relative">
-        {/* Actions */}
-        <div className="absolute top-2 right-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <EllipsisVertical className="h-5 w-5 cursor-pointer" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onDetails(product._id)}>
-                Detalhes
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onEdit(product)}>
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(product._id)}>
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        {/* Card Content */}
-        <CardHeader className="pb-2">
+      <Card className="mb-4 h-full flex flex-col justify-between">
+        <CardHeader className="pb-0">
           <CardTitle className="text-base capitalize line-clamp-1">
             {product.name}
           </CardTitle>
-          <CardDescription className="text-base capitalize line-clamp-1">
-            {product.category}
-          </CardDescription>
+
+          <CardAction>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <EllipsisVertical className="h-5 w-5 cursor-pointer" />
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuItem
+                  className="hover:cursor-pointer font-light py-2"
+                  onClick={() => onDetails(product._id)}
+                >
+                  <Info /> Detalhes
+                </DropdownMenuItem>
+
+                <Separator />
+
+                <DropdownMenuItem
+                  className="hover:cursor-pointer font-light py-2"
+                  onClick={() => onEdit(product)}
+                >
+                  <Edit /> Editar
+                </DropdownMenuItem>
+
+                <Separator />
+
+                <DropdownMenuItem
+                  className="text-red-600 hover:cursor-pointer font-light py-2"
+                  onClick={() => onDelete(product._id)}
+                >
+                  <Trash2 /> Remover
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </CardAction>
         </CardHeader>
+
         <CardContent className="flex flex-col justify-between">
           <p className="text-base mb-2 truncate capitalize line-clamp-2">
             {product.description}

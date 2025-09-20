@@ -40,7 +40,7 @@ export const useProduct = (id: string) => {
     setReviewsLoading(true);
     try {
       const response = await api
-        .get(`/reviews/${productId}`)
+        .get(`/products/${productId}/reviews`)
         .then((res) => res.data);
       setReviews(response);
     } catch (error) {
