@@ -27,7 +27,7 @@ export default function ReviewCard({
   const avatarUrl = `${DICEBEAR_URL}?seed=${randomSeed}`;
   return (
     <>
-      <Card className="w-full h-[250px] relative">
+      <Card className="w-[320px] h-[250px] relative">
         {/* Actions */}
         <div className="absolute top-2 right-2">
           <DropdownMenu>

@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "@/hooks/useProducts";
+import { useState } from "react";
+import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
 
 export default function ProductsPage() {
   const navigate = useNavigate();
@@ -23,6 +25,9 @@ export default function ProductsPage() {
     handleDeleteSelectedRows,
   } = useProducts();
 
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
+
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
@@ -32,16 +37,32 @@ export default function ProductsPage() {
     navigate(`/products/${productId}`);
   };
 
+  const confirmDelete = (productId: string) => {
+    setProductToDelete(productId);
+    setIsAlertOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (productToDelete) {
+      await handleDelete(productToDelete);
+      setProductToDelete(null);
+      setIsAlertOpen(false);
+    }
+  };
+
   const hasProducts = !!products?.length;
 
   return (
-    <div className="flex flex-col w-full gap-14 pt-28">
+    <div className="flex flex-col gap-14 pt-28 max-w-5xl mx-auto">
+      {/* Modal to add or update Product */}
       <ProductModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         product={selectedProduct}
         onSave={handleSave}
       />
+
+      {/* Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
         <h1 className="text-4xl font-normal text-[#737373]">Produtos</h1>
         <div className="flex gap-2 sm:self-end">
@@ -63,12 +84,13 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="hidden md:block">
+      {/* Table for Desktop view */}
+      <div className="hidden sm:block">
         <ProductTable
           data={products || []}
           columns={ProductTableColumn({
             onEdit: handleEdit,
-            onDelete: handleDelete,
+            onDelete: confirmDelete,
             onDetails: handleDetails,
             hasProducts,
           })}
@@ -77,17 +99,25 @@ export default function ProductsPage() {
         />
       </div>
 
-      <div className="flex flex-col md:hidden">
+      {/* Cards for mobile view */}
+      <div className="flex flex-col sm:hidden">
         {products?.map((product) => (
           <ProductCard
             key={product._id}
             product={product}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={confirmDelete}
             onDetails={handleDetails}
           />
         ))}
       </div>
+
+      {/* Confirm Modal */}
+      <ConfirmDeleteModal
+        isOpen={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }

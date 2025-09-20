@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { Edit, EllipsisVertical, Info, Trash2 } from "lucide-react";
+import { ArrowUpDown, Edit, Info, MoreHorizontal, Trash2 } from "lucide-react";
 import { formatCurrencyBRL } from "@/utils/formatCurrency";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
@@ -56,40 +56,79 @@ export const ProductTableColumn = ({
   },
   {
     accessorKey: "name",
-    header: "Nome",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-sm justify-start"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Nome
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
-      <div className="capitalize text-left text-sm truncate max-w-[200px] overflow-hidden whitespace-nowrap">
+      <p className="capitalize text-left text-sm font-semibold truncate justify-start overflow-hidden whitespace-nowrap p-3 text-primary">
         {row.getValue("name")}
-      </div>
+      </p>
     ),
-    size: 200,
+    size: 150,
   },
   {
     accessorKey: "price",
-    header: "Preço",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-sm w-[100px] justify-start"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Preço
+          <ArrowUpDown className=" h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }: { row: any }) => {
       const price = parseFloat(row.getValue("price"));
       const formattedPrice = formatCurrencyBRL(price);
 
-      return <div className="text-left">{formattedPrice}</div>;
+      return (
+        <p className="text-left p-3 text-primary w-[100px]">{formattedPrice}</p>
+      );
     },
-    size: 150,
+    // size: 150,
   },
   {
     accessorKey: "category",
-    header: "Categoria",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-sm w-[100px] justify-start"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Categoria
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
-      <div className="capitalize text-left">{row.getValue("category")}</div>
+      <p className="capitalize text-left p-3 text-primary w-[100px]">
+        {row.getValue("category")}
+      </p>
     ),
-    size: 150,
+    // size: 150,
   },
   {
     accessorKey: "description",
-    header: "Descrição",
+    header: () => {
+      return <p className="text-sm w-64">Descrição</p>;
+    },
     cell: ({ row }) => (
-      <div className="capitalize text-left truncate max-w-[200px] overflow-hidden whitespace-nowrap">
+      <p className="capitalize text-left truncate  w-64 overflow-hidden whitespace-nowrap text-primary">
         {row.getValue("description")}
-      </div>
+      </p>
     ),
     size: 200,
   },
@@ -103,10 +142,10 @@ export const ProductTableColumn = ({
             <TooltipTrigger asChild>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   className="h-8 w-8 p-0 hover:cursor-pointer"
                 >
-                  <EllipsisVertical />
+                  <MoreHorizontal />
                 </Button>
               </DropdownMenuTrigger>
             </TooltipTrigger>
@@ -115,9 +154,9 @@ export const ProductTableColumn = ({
             </TooltipContent>
           </Tooltip>
 
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer font-light py-2"
               onClick={() => onDetails(row.original._id)}
             >
               <Info /> Detalhes
@@ -126,7 +165,7 @@ export const ProductTableColumn = ({
             <Separator />
 
             <DropdownMenuItem
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer font-light py-2"
               onClick={() => onEdit(row.original)}
             >
               <Edit /> Editar
@@ -135,7 +174,7 @@ export const ProductTableColumn = ({
             <Separator />
 
             <DropdownMenuItem
-              className="text-red-600 hover:cursor-pointer"
+              className="text-red-600 hover:cursor-pointer font-light py-2"
               onClick={() => onDelete(row.original._id)}
             >
               <Trash2 /> Remover
@@ -144,6 +183,6 @@ export const ProductTableColumn = ({
         </DropdownMenu>
       );
     },
-    size: 60,
+    // size: 60,
   },
 ];

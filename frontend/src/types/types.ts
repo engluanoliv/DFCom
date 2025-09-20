@@ -1,9 +1,13 @@
+import type { PRODUCT_CATEGORIES } from "@/constants/categories";
+
+export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
+
 export type Product = {
   _id: string;
   name: string;
   description: string;
   price: number;
-  category: "eletronicos" | "roupas" | "livros";
+  category: ProductCategory;
   createdAt: Date;
 };
 

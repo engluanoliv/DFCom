@@ -2,20 +2,25 @@ import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import api from "@/config/axios";
 import { useProduct } from "@/hooks/useProduct";
+import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { product, reviews, isLoading, reviewsLoading, fetchProductReviews } =
-    useProduct(id ?? "");
+  const { product, isLoading } = useProduct(id ?? "");
+  const {
+    reviews,
+    isLoading: reviewsLoading,
+    saveReview,
+    deleteReview,
+  } = useReviews(id);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState<Review | undefined>(
     undefined
@@ -30,27 +35,16 @@ export default function ProductDetailsPage(): JSX.Element {
     values: ReviewSchemaType,
     review?: Review
   ) => {
-    try {
-      if (review) {
-        await api.put(`/reviews/review/${review._id}`, values);
-        toast.success("Avaliação atualizada 📝");
-      } else {
-        await api.post(`/reviews/${id}`, values);
-        toast.success("Avaliação criada 🥳");
-      }
-      fetchProductReviews(id ?? "");
-    } catch (error) {
-      toast.error("Erro ao salvar avaliação");
-      console.error(error);
-    }
+    await saveReview(values, review);
   };
 
   const handleEditReview = (review: Review) => {
-    console.log(review);
+    setSelectedReview(review);
+    setIsModalOpen(true);
   };
 
-  const handleDeleteReview = (reviewId: string) => {
-    console.log(reviewId);
+  const handleDeleteReview = async (reviewId: string) => {
+    await deleteReview(reviewId);
   };
 
   if (isLoading) {
@@ -118,7 +112,7 @@ export default function ProductDetailsPage(): JSX.Element {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="flex items-center gap-6">
             {reviews?.map((review) => (
               <ReviewCard
                 onDelete={handleDeleteReview}

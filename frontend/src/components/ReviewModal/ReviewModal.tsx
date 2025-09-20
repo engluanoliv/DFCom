@@ -59,7 +59,6 @@ export default function ReviewModal({
   }, [isOpen, review, reset, productId]);
 
   const onSubmit = async (values: ReviewSchemaType) => {
-    console.log(values, review);
     await onSave(values, review);
     onOpenChange(false);
   };

@@ -23,7 +23,7 @@ export default function ProductTablePagination<TData>({
 }: ProductTablePaginationProps<TData>) {
   return (
     <>
-      <div className="flex justify-end p-4 bg-card">
+      <div className="flex justify-end p-4 pe-0">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -33,7 +33,7 @@ export default function ProductTablePagination<TData>({
                 className={
                   !table.getCanPreviousPage()
                     ? "pointer-events-none opacity-50"
-                    : ""
+                    : "hover:cursor-pointer"
                 }
               />
             </PaginationItem>
@@ -48,7 +48,9 @@ export default function ProductTablePagination<TData>({
                     setPageIndex(page);
                   }}
                   className={
-                    pageIndex === page ? "bg-primary text-white" : undefined
+                    pageIndex === page
+                      ? "bg-primary text-white hover:cursor-pointer"
+                      : undefined
                   }
                 >
                   {page + 1}
@@ -63,7 +65,7 @@ export default function ProductTablePagination<TData>({
                 className={
                   !table.getCanNextPage()
                     ? "pointer-events-none opacity-50"
-                    : ""
+                    : "hover:cursor-pointer"
                 }
               />
             </PaginationItem>

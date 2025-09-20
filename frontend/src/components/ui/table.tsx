@@ -68,12 +68,13 @@ TableRow.displayName = "TableRow";
 
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
+  React.ThHTMLAttributes<HTMLTableCellElement> & { style?: React.CSSProperties }
+>(({ className, style, ...props }, ref) => (
   <th
     ref={ref}
+    style={style}
     className={cn(
-      "h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "h-10 px-2 text-left align-middle font-medium text-muted-foreground whitespace-nowrap",
       className
     )}
     {...props}
@@ -83,12 +84,13 @@ TableHead.displayName = "TableHead";
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
+  React.TdHTMLAttributes<HTMLTableCellElement> & { style?: React.CSSProperties }
+>(({ className, style, ...props }, ref) => (
   <td
     ref={ref}
+    style={style}
     className={cn(
-      "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "p-2 align-middle whitespace-nowrap overflow-hidden text-ellipsis",
       className
     )}
     {...props}

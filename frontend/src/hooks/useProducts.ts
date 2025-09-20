@@ -64,6 +64,7 @@ export const useProducts = () => {
       fetchProducts();
     } catch (error) {
       toast.error("Erro ao remover produtos");
+      console.error(error);
     }
   };
 

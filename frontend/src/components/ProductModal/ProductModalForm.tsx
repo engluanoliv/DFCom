@@ -14,11 +14,13 @@ import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
 import type { ProductSchemaType } from "@/schemas/schemas";
+import { PRODUCT_CATEGORIES } from "@/constants/categories";
 
 type ProductModalFormProps = {
   form: UseFormReturn<ProductSchemaType>;
@@ -101,9 +103,13 @@ export default function ProductModalForm({
                     <SelectValue placeholder="Selecione uma categoria" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="eletronicos">Eletrônicos</SelectItem>
-                    <SelectItem value="roupas">Roupas</SelectItem>
-                    <SelectItem value="livros">Livros</SelectItem>
+                    <SelectGroup>
+                      {PRODUCT_CATEGORIES.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
                   </SelectContent>
                 </Select>
               </FormControl>
