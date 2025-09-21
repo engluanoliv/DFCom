@@ -1,4 +1,5 @@
-import api from "@/config/axios";
+import { productService } from "@/services/productServices";
+import { reviewService } from "@/services/reviewServices";
 import type { Product, Review } from "@/types/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -23,9 +24,7 @@ export const useProduct = (id: string) => {
   const fetchProductDetails = async (productId: string) => {
     setIsLoading(true);
     try {
-      const response = await api
-        .get(`/products/${productId}`)
-        .then((res) => res.data);
+      const response = await productService.getProduct(productId);
       setProduct(response);
     } catch (error) {
       console.error("Failed to fetch product details:", error);
@@ -39,9 +38,7 @@ export const useProduct = (id: string) => {
   const fetchProductReviews = async (productId: string) => {
     setReviewsLoading(true);
     try {
-      const response = await api
-        .get(`/products/${productId}/reviews`)
-        .then((res) => res.data);
+      const response = await reviewService.getAll(productId);
       setReviews(response);
     } catch (error) {
       console.error("Failed to fetch reviews:", error);
