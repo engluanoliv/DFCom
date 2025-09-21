@@ -115,7 +115,7 @@ Utilize ferramentas como **Postman** ou **Insomnia** para testar os endpoints.
 
 ---
 
-## 🖥 Rodando Localmente
+## 🖥 Rodando Aplicação
 
 ### Pré-requisitos
 - Node.js >= 18
@@ -124,7 +124,7 @@ Utilize ferramentas como **Postman** ou **Insomnia** para testar os endpoints.
 
 ### 1. Clonar o repositório
 ```bash
-git clone https://github.com/<seu-usuario>/product-review-app.git
+git clone https://github.com/engluanoliv/DFCom.git
 cd product-review-app
 ```
 
