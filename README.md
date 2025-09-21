@@ -182,6 +182,11 @@ docker-compose up --build
 - Backend → http://localhost:5500  
 - MongoDB → mongodb://mongo:27017
 
+> 💡 Observação: É possível usar MongoDB Atlas como banco remoto em vez do Mongo local.
+Basta alterar a variável de ambiente MONGO_URI no backend para o URI do Atlas.
+Assim, o projeto funciona sem precisar rodar MongoDB localmente, facilitando para recrutadores ou colaboradores.
+
+
 ---
 
 ## 📤 Entrega
