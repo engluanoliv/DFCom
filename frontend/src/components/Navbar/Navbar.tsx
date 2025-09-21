@@ -1,5 +1,10 @@
 import { Button } from "../ui/button";
 import ThemeToggle from "../ui/theme-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Skeleton } from "../ui/skeleton";
+import { useTheme } from "@/providers/theme-provider";
+import { BellDot, LogOut, Search, Settings2, User } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,11 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Skeleton } from "../ui/skeleton";
-import { useTheme } from "@/providers/theme-provider";
-import { BellDot, LogOut, Search, Settings2, User } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export default function Navbar(): JSX.Element {
   const { theme } = useTheme();

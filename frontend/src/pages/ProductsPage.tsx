@@ -65,7 +65,7 @@ export default function ProductsPage() {
           Excluir selecionados
         </Button>
         <Button
-          className="bg-green-600 hover:cursor-pointer hover:bg-green-800"
+          className="bg-green-600 hover:cursor-pointer hover:bg-green-800 dark:text-zinc-50"
           onClick={() => setIsModalOpen(true)}
         >
           <Plus className="sm:hidden" />

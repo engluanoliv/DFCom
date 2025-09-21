@@ -64,7 +64,7 @@ export default function ProductTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="h-12 bg-zinc-100" key={headerGroup.id}>
+              <TableRow className="h-12 bg-zinc-100 dark:bg-card" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead

@@ -1,17 +1,9 @@
 import type { Product } from "@/types/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { ArrowUpDown, Edit, Info, MoreHorizontal, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { formatCurrencyBRL } from "@/utils/formatCurrency";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Separator } from "../ui/separator";
 import ProductTableActions from "./ProductTableActions";
 
 type ProductTableColumnProps = {
@@ -31,7 +23,7 @@ export const ProductTableColumn = ({
     id: "select",
     header: ({ table }) =>
       hasProducts && (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center px-2">
           <Checkbox
             className="border-gray-400"
             checked={
@@ -45,7 +37,7 @@ export const ProductTableColumn = ({
         </div>
       ),
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center px-2">
         <Checkbox
           className="border-gray-400"
           checked={row.getIsSelected()}
@@ -63,7 +55,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm justify-start !px-0"
+          className="text-sm justify-start"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nome
@@ -72,7 +64,7 @@ export const ProductTableColumn = ({
       );
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left text-sm font-semibold justify-start truncate text-wrap line-clamp-2 text-primary">
+      <p className="capitalize text-left text-sm font-semibold justify-start truncate text-wrap line-clamp-2 text-primary px-3">
         {row.getValue("name")}
       </p>
     ),
@@ -83,7 +75,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm !px-0 justify-start"
+          className="text-sm justify-start"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Preço
@@ -96,7 +88,7 @@ export const ProductTableColumn = ({
       const formattedPrice = formatCurrencyBRL(price);
 
       return (
-        <p className="text-left text-primary max-w-[80px]">{formattedPrice}</p>
+        <p className="text-left text-primary max-w-[80px] px-3">{formattedPrice}</p>
       );
     },
   },
@@ -106,7 +98,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm !px-0 justify-start  max-w-[100px]"
+          className="text-sm justify-start  max-w-[150px]"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Categoria
@@ -115,7 +107,7 @@ export const ProductTableColumn = ({
       );
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left text-primary max-w-[100px]">
+      <p className="capitalize text-left text-primary max-w-[150px] px-3">
         {row.getValue("category")}
       </p>
     ),

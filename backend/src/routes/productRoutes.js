@@ -2,6 +2,7 @@ import express from "express";
 import {
   createProduct,
   deleteProduct,
+  getAverageRating,
   getProduct,
   listProducts,
   updateProduct,
@@ -33,5 +34,8 @@ router.get("/:productId/reviews", listReviewsByProductId);
 
 // Create Review
 router.post("/:productId/reviews", createReview);
+
+// Get Average Rating
+router.get("/:productId/average-rating", getAverageRating);
 
 export default router;

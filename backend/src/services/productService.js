@@ -27,3 +27,18 @@ export const deleteProductService = async (productId) => {
   await Product.findByIdAndDelete(productId);
   await Review.deleteMany({ productId });
 };
+
+export const getAverageRatingService = async (productId) => {
+  const result = await Review.aggregate([
+    { $match: { productId: productId } },
+    {
+      $group: {
+        _id: "$productId",
+        averageRating: { $avg: "$rating" },
+        totalReviews: { $sum: 1 },
+      },
+    },
+  ]);
+
+  return result.length > 0 ? result[0] : { averageRating: 0, totalReviews: 0 };
+};

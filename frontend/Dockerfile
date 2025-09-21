@@ -5,6 +5,6 @@ RUN npm ci
 COPY . .
 RUN npm run build
 # Serve build com serve (instale serve) ou use nginx; aqui uso serve:
-RUN npm install -g serve
-EXPOSE 3000
-CMD ["serve","-s","build","-l","3000"]
+RUN pnpm install -g serve
+EXPOSE 5173
+CMD ["serve","-s","build","-l","5173"]
