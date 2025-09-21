@@ -24,7 +24,7 @@ export const useReviews = (productId?: string) => {
     }
   };
 
-  const saveReview = async (values: ReviewSchemaType, review?: Review) => {
+  const handleSave = async (values: ReviewSchemaType, review?: Review) => {
     if (!productId) return;
     try {
       if (review) {
@@ -41,7 +41,7 @@ export const useReviews = (productId?: string) => {
     }
   };
 
-  const deleteReview = async (reviewId: string) => {
+  const handleDelete = async (reviewId: string) => {
     try {
       await api.delete(`/reviews/${reviewId}`);
       toast.success("Avaliação excluída 🗑️");
@@ -56,5 +56,5 @@ export const useReviews = (productId?: string) => {
     fetchReviews();
   }, [productId]);
 
-  return { reviews, isLoading, fetchReviews, saveReview, deleteReview };
+  return { reviews, isLoading, fetchReviews, handleSave, handleDelete };
 };

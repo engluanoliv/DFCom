@@ -4,7 +4,7 @@ import ProductTable from "@/components/ProductTable/ProductTable";
 import { ProductTableColumn } from "@/components/ProductTable/ProductTableColumns";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "@/hooks/useProducts";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export default function ProductsPage() {
   } = useProducts();
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [productId, setProductId] = useState("");
+  const [productId, setProductId] = useState<string | null>(null);
 
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
@@ -37,25 +37,27 @@ export default function ProductsPage() {
     navigate(`/products/${productId}`);
   };
 
-  const noname = (productId: string) => {
+  const handleDeleteProduct = (productId: string) => {
     setProductId(productId);
     setIsAlertOpen(true);
   };
 
   const handleConfirmDelete = async () => {
-    await handleDelete(productId);
+    if (productId) {
+      await handleDelete(productId);
+    }
     setIsAlertOpen(false);
   };
 
   const hasProducts = products?.length > 0;
 
   return (
-    <div className="flex flex-col gap-14 pt-28 max-w-5xl mx-auto">
+    <div className="flex flex-col gap-4 max-w-5xl mx-auto">
       {/* Buttons */}
       <div className="flex gap-2 md:self-end items-center justify-end">
         <Button
           variant="destructive"
-          className="self-start hidden md:flex"
+          className="self-start hidden md:flex  hover:cursor-pointer hover:bg-card"
           onClick={handleDeleteSelectedRows}
           disabled={!Object.keys(rowSelection).length}
         >
@@ -63,10 +65,11 @@ export default function ProductsPage() {
           Excluir selecionados
         </Button>
         <Button
-          className="w-fit bg-green-600"
+          className="bg-green-600 hover:cursor-pointer hover:bg-green-800"
           onClick={() => setIsModalOpen(true)}
         >
-          Novo Produto
+          <Plus className="sm:hidden" />
+          <span className="hidden sm:flex">Adicionar Produto</span>
         </Button>
       </div>
 
@@ -76,7 +79,7 @@ export default function ProductsPage() {
           data={products || []}
           columns={ProductTableColumn({
             onEdit: handleEdit,
-            onDelete: noname,
+            onDelete: handleDeleteProduct,
             onDetails: handleDetails,
             hasProducts,
           })}
@@ -92,7 +95,7 @@ export default function ProductsPage() {
             key={product._id}
             product={product}
             onEdit={handleEdit}
-            onDelete={noname}
+            onDelete={handleDeleteProduct}
             onDetails={handleDetails}
           />
         ))}

@@ -1,6 +1,7 @@
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
+import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 // import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
@@ -15,11 +16,13 @@ export default function ProductDetailsPage(): JSX.Element {
   const {
     reviews,
     isLoading: reviewsLoading,
-    saveReview,
-    deleteReview,
+    handleSave,
+    handleDelete,
   } = useReviews(id);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reviewId, setReviewId] = useState<string | null>(null);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState<Review | undefined>(
     undefined
   );
@@ -33,7 +36,7 @@ export default function ProductDetailsPage(): JSX.Element {
     values: ReviewSchemaType,
     review?: Review
   ) => {
-    await saveReview(values, review);
+    await handleSave(values, review);
   };
 
   const handleEditReview = (review: Review) => {
@@ -41,8 +44,16 @@ export default function ProductDetailsPage(): JSX.Element {
     setIsModalOpen(true);
   };
 
-  const handleDeleteReview = async (reviewId: string) => {
-    await deleteReview(reviewId);
+  const handleDeleteReview = (reviewId: string) => {
+    setReviewId(reviewId);
+    setIsAlertOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (reviewId) {
+      await handleDelete(reviewId);
+    }
+    setIsAlertOpen(false);
   };
 
   return (
@@ -89,6 +100,13 @@ export default function ProductDetailsPage(): JSX.Element {
           review={selectedReview}
         />
       )}
+
+      {/* Confirm Modal */}
+      <ConfirmDeleteModal
+        isOpen={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }
