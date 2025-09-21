@@ -3,5 +3,5 @@ WORKDIR /app
 COPY package*.json ./
 RUN pnpm install
 COPY . .
-EXPOSE 5000
+EXPOSE 5500
 CMD ["node", "server.js"]

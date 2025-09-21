@@ -1,6 +1,7 @@
 import {
   createProductService,
   deleteProductService,
+  getAverageRatingService,
   getProductService,
   listProductsService,
   updateProductService,
@@ -89,6 +90,18 @@ export const deleteProduct = async (req, res) => {
     res.status(200).json({ message: "Product deleted" });
   } catch (error) {
     console.error("Error deleting product", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getAverageRating = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const averageData = await getAverageRatingService(productId);
+
+    res.status(200).json(averageData);
+  } catch (error) {
+    console.error("Error calculating average rating", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
