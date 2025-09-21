@@ -31,7 +31,6 @@ Em uma aplicação SaaS real, eu também poderia usar **Next.js** para lidar com
 
 ---
 
-
 ## 📦 Funcionalidades
 
 ### Produtos
@@ -52,7 +51,6 @@ Em uma aplicação SaaS real, eu também poderia usar **Next.js** para lidar com
 ---
 
 ## 📂 Estrutura do Projeto
-
 
 ```
 backend/
@@ -90,9 +88,30 @@ frontend/
 │   └── utils/
 ├── index.html
 └── vite.config.ts
-
 docker-compose.yml
 ```
+---
+
+## Endpoints da API
+
+### Produtos
+
+- `POST /api/products` → Criar produto
+- `GET /api/products` → Listar produtos
+- `GET /api/products/:productId` → Obter produto por ID
+- `PUT /api/products/:productId` → Atualizar produto
+- `DELETE /api/products/:productId` → Deletar produto (e suas avaliações)
+- `GET /api/products/:productId/reviews` → Listar avaliações de um produto
+- `POST /api/products/:productId/reviews` → Criar avaliação para um produto
+
+### Avaliações
+
+- `PUT /api/reviews/:reviewId` → Atualizar avaliação
+- `DELETE /api/reviews/:reviewId` → Deletar avaliação
+
+## Testes
+
+Utilize ferramentas como **Postman** ou **Insomnia** para testar os endpoints.
 
 ---
 
