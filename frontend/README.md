@@ -42,22 +42,19 @@ In a real-world SaaS application, I could also use **Next.js** to handle SSR/SEO
 - List all reviews of a specific product
 - Update a review
 - Delete a review
-
-### Extra
-- Get the **average rating** of a product using MongoDB aggregation
-
 ---
 
 ## 📂 Project Structure
 
-├── frontend/<br />
-│   ├── src/<br />
-│   │   ├── components/<br />
-│   │   ├── pages/<br />
-│   │   └── services/<br />
-│   └── vite.config.ts<br />
-│<br />
-└── docker-compose.yml<br />
+
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── services/
+│   └── vite.config.ts
+│
+└── docker-compose.yml
 
 ---
 

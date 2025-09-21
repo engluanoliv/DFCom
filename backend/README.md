@@ -1,78 +1,84 @@
 # Backend API
 
-## Overview
+## Visão Geral
 
-This backend is built with **Node.js**, **Express**, and **MongoDB
+Este backend foi desenvolvido com **Node.js**, **Express** e **MongoDB
 (Mongoose)**.\
-It manages **Products** and **Reviews** with proper relationships.
+Ele gerencia **Produtos** e **Avaliações** com os devidos relacionamentos.
 
-## Project Structure
+## Estrutura do Projeto
 
-    src/
-     ├── controllers/       # Handle HTTP layer (req, res)
-     │    ├── productController.js
-     │    └── reviewController.js
-     ├── services/          # Business logic & database operations
-     │    ├── productService.js
-     │    └── reviewService.js
-     ├── models/            # Mongoose schemas
-     │    ├── Product.js
-     │    └── Review.js
-     ├── routes/            # Express routes
-     │    ├── productRoutes.js
-     │    └── reviewRoutes.js
-     ├── lib/               # Utility files
-     │    └── db.js
-     └── server.js          # Entry point
-
-## Features
-
--   CRUD for **Products**
--   CRUD for **Reviews**
--   MongoDB relationships: each Review references a Product
--   Organized architecture: Controller → Service → Model
-
-## Setup
-
-``` bash
-# Install dependencies
-pnpm install
-
-# Environment variables (.env)
-MONGO_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/db
-PORT=5000
-
-# Run server
-pnpm dev
+```
+src/
+ ├── controllers/       # Camada HTTP (req, res)
+ │    ├── productController.js
+ │    └── reviewController.js
+ ├── services/          # Lógica de negócio e operações no banco
+ │    ├── productService.js
+ │    └── reviewService.js
+ ├── models/            # Schemas do Mongoose
+ │    ├── Product.js
+ │    └── Review.js
+ ├── routes/            # Rotas do Express
+ │    ├── productRoutes.js
+ │    └── reviewRoutes.js
+ ├── lib/               # Utilitários
+ │    └── db.js
+ └── server.js          # Ponto de entrada
 ```
 
-## API Endpoints
+## Funcionalidades
 
-### Products
+- CRUD para **Produtos**
+- CRUD para **Avaliações**
+- Relacionamento no MongoDB: cada Avaliação referencia um Produto
+- Arquitetura organizada: Controller → Service → Model
 
--   `POST /api/products` → Create product
--   `GET /api/products` → List products
--   `GET /api/products/:id` → Get single product
--   `PUT /api/products/:id` → Update product
--   `DELETE /api/products/:id` → Delete product (and its reviews)
+## Configuração
 
-### Reviews
+```bash
+# Instalar dependências
+pnpm install
+# ou
+npm install
+# ou
+yarn install
 
--   `POST /api/reviews` → Create review
--   `GET /api/reviews` → List reviews
--   `GET /api/reviews/:id` → Get single review
--   `PUT /api/reviews/:id` → Update review
--   `DELETE /api/reviews/:id` → Delete review
 
-## Testing
+# Rodar servidor
+pnpm run dev
+# ou
+npm run dev
+# ou
+yarn run dev
+```
 
-Use tools like **Postman** or **Insomnia** to test endpoints.
+## Endpoints da API
+
+### Produtos
+
+- `POST /api/products` → Criar produto
+- `GET /api/products` → Listar produtos
+- `GET /api/products/:productId` → Obter produto por ID
+- `PUT /api/products/:productId` → Atualizar produto
+- `DELETE /api/products/:productId` → Deletar produto (e suas avaliações)
+- `GET /api/products/:productId/reviews` → Listar avaliações de um produto
+- `POST /api/products/:productId/reviews` → Criar avaliação para um produto
+
+### Avaliações
+
+- `PUT /api/reviews/:reviewId` → Atualizar avaliação
+- `DELETE /api/reviews/:reviewId` → Deletar avaliação
+
+## Testes
+
+Utilize ferramentas como **Postman** ou **Insomnia** para testar os endpoints.
 
 ## Docker
 
-You can run with Docker:
+Você pode rodar com Docker:
 
-``` bash
+```bash
 docker build -t backend-api .
 docker run -p 5500:5500 backend-api
 ```
