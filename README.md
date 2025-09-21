@@ -136,6 +136,10 @@ git clone https://github.com/engluanoliv/DFCom.git
 cd DFCom
 ```
 
+### Criar o arquivo .env baseado no .env.sample
+Copiar as variaveis de ambiente do arquivo .env.sample para um arquivo .env em ambos (frontens e backend)
+
+
 Você pode rodar a aplicação de duas formas: usando **Docker Compose (recomendado)** ou rodando os serviços separadamente de forma local.
 
 ### Opção 1: Rodar com Docker Compose (Recomendado)
