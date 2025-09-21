@@ -68,7 +68,7 @@ export default function ProductCard({
         </CardHeader>
 
         <CardContent className="flex flex-col items-start p-0 px-2 flex-1">
-          <p className="text-base mb-2 truncate capitalize line-clamp-2">
+          <p className="text-sm text-wrap mb-2 truncate capitalize line-clamp-3 overflow-hidden text-left">
             {product.description}
           </p>
           {/* <p className="font-bold text-base">
