@@ -1,7 +1,7 @@
 FROM node:18
 WORKDIR /app
 COPY package*.json ./
-RUN pnpm install
+RUN npm install
 COPY . .
 EXPOSE 5500
-CMD ["node", "server.js"]
+CMD ["npm", "run", "dev"]
