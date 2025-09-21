@@ -93,3 +93,78 @@ frontend/
 
 docker-compose.yml
 ```
+
+---
+
+## 🖥 Rodando Localmente
+
+### Pré-requisitos
+- Node.js >= 18
+- Docker (opcional, para rodar em containers)
+- MongoDB (se rodar sem Docker)
+
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/<seu-usuario>/product-review-app.git
+cd product-review-app
+```
+
+### 2. Rodar o backend
+```bash
+cd backend
+
+# Instalar dependências
+pnpm install
+# ou
+npm install
+# ou
+yarn install
+
+# Rodar servidor
+pnpm run dev
+# ou
+npm run dev
+# ou
+yarn run dev
+```
+
+O backend estará em: **http://localhost:5500**
+
+### 3. Rodar o frontend
+```bash
+cd frontend
+# Instalar dependências
+pnpm install
+# ou
+npm install
+# ou
+yarn install
+
+# Rodar servidor
+pnpm run dev
+# ou
+npm run dev
+# ou
+yarn run dev
+```
+
+O frontend estará em: **http://localhost:5173**
+
+---
+
+## 🐳 Docker Setup
+
+Para rodar toda a stack com um único comando:
+```bash
+docker-compose up --build
+```
+
+- Frontend → http://localhost:5173  
+- Backend → http://localhost:5500  
+- MongoDB → mongodb://mongo:27017
+
+---
+
+## 📤 Entrega
+O código do projeto está hospedado neste repositório público no GitHub.  
+Para rodar localmente, siga as instruções acima.
