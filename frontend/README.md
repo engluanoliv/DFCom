@@ -51,16 +51,16 @@ In a real-world SaaS application, I could also use **Next.js** to handle SSR/SEO
 ## 📂 Project Structure
 
 .
-├── backend/        # Express + MongoDB API <br />
-│   ├── models/     # Product & Review schemas <br />
-│   ├── routes/     # API routes <br />
-│   └── server.ts   # Express server <br />
+├── backend/      <br />  # Express + MongoDB API
+│   ├── models/   <br />  # Product & Review schemas
+│   ├── routes/   <br />  # API routes
+│   └── server.ts <br />  # Express server
 │ <br />
-├── frontend/       # React + Vite app <br />
+├── frontend/     <br />  # React + Vite app
 │   ├── src/ <br />
-│   │   ├── components/  # Reusable UI components <br />
-│   │   ├── pages/       # Products, ProductDetails, Reviews <br />
-│   │   └── services/    # Axios API services <br />
+│   │   ├── components/<br />  # Reusable UI components
+│   │   ├── pages/     <br />  # Products, ProductDetails, Reviews
+│   │   └── services/  <br />  # Axios API services
 │   └── vite.config.ts <br />
 │ <br />
 └── docker-compose.yml <br />
