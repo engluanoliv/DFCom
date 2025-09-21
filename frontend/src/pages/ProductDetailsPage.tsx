@@ -1,17 +1,17 @@
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
-import { useProduct } from "@/hooks/useProduct";
+import { Skeleton } from "@/components/ui/skeleton";
+// import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { id } = useParams();
-  const { product, isLoading } = useProduct(id ?? "");
+  // const { product, isLoading } = useProduct(id ?? "");
   const {
     reviews,
     isLoading: reviewsLoading,
@@ -45,70 +45,37 @@ export default function ProductDetailsPage(): JSX.Element {
     await deleteReview(reviewId);
   };
 
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-
-  if (!product) {
-    return <div>Produto não encontrado.</div>;
-  }
-
   return (
-    <div className="max-w-[1280px] mx-auto">
+    <div className="flex flex-col gap-4">
       {/* Product Details */}
-      <div className="flex flex-col sm:flex-row w-full justify-between items-center py-6 gap-4 px-4 sm:px-6 lg:px-8">
-        {/* <div className="flex flex-col items-start text-[16px] w-fit gap-2">
-          <h1 className="text-lg text-left font-semibold text-wrap line-clamp-1">
-            <span className="text-semibold">Produto: </span>
-            {product.name}
-          </h1>
-          <p className="text-sm text-left capitalize">
-            <span className="font-semibold">Preço: </span>R$
-            {product.price.toFixed(2)}
-          </p>
-          <p className="text-sm text-left capitalize">
-            <span className="font-semibold">Categoria: </span>
-            {product.category}
-          </p>
-          <p className="text-sm text-left capitalize max-w-lg">
-            <span className="font-semibold">Descrição: </span>
-            {product.description}
-          </p>
-        </div> */}
-        <Button
-          onClick={() => handleOpenModal()}
-          className="bg-green-600 w-fit self-end sm:self-center"
-        >
-          Nova Avaliação
-        </Button>
-      </div>
+      <Button
+        onClick={() => handleOpenModal()}
+        className="bg-green-700 w-fit self-end sm:self-center"
+      >
+        Nova Avaliação
+      </Button>
 
       {/* List of Reviews */}
-      <div className="w-full  lg:px-8 py-14">
+      <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {reviewsLoading ? (
-          <div className="min-h-[200px] flex items-center justify-center">
-            <p className="text-center font-semibold text-lg pr-2">
-              Carregando avaliações
-            </p>
-            <Loader2 className="animate-spin" />
-          </div>
+          Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton className="h-[190px]" key={index} />
+          ))
         ) : reviews?.length === 0 ? (
-          <div className="min-h-[200px] flex items-center justify-center">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 min-h-[200px] flex items-center justify-center">
             <p className="text-center font-semibold text-lg">
               Nenhuma avaliação ainda.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {reviews?.map((review) => (
-              <ReviewCard
-                onDelete={handleDeleteReview}
-                onEdit={handleEditReview}
-                key={review?._id}
-                review={review}
-              />
-            ))}
-          </div>
+          reviews?.map((review) => (
+            <ReviewCard
+              onDelete={handleDeleteReview}
+              onEdit={handleEditReview}
+              key={review?._id}
+              review={review}
+            />
+          ))
         )}
       </div>
 

@@ -12,6 +12,7 @@ import { ArrowUpDown, Edit, Info, MoreHorizontal, Trash2 } from "lucide-react";
 import { formatCurrencyBRL } from "@/utils/formatCurrency";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
+import ProductTableActions from "./ProductTableActions";
 
 type ProductTableColumnProps = {
   onEdit: (product: Product) => void;
@@ -32,6 +33,7 @@ export const ProductTableColumn = ({
       hasProducts && (
         <div className="flex items-center justify-center">
           <Checkbox
+            className="border-gray-400"
             checked={
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && "indeterminate")
@@ -45,6 +47,7 @@ export const ProductTableColumn = ({
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
         <Checkbox
+          className="border-gray-400"
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
         />
@@ -60,7 +63,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm justify-start"
+          className="text-sm justify-start !px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nome
@@ -69,11 +72,10 @@ export const ProductTableColumn = ({
       );
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left text-sm font-semibold truncate justify-start overflow-hidden whitespace-nowrap p-3 text-primary">
+      <p className="capitalize text-left text-sm font-semibold justify-start truncate text-wrap line-clamp-2 text-primary">
         {row.getValue("name")}
       </p>
     ),
-    size: 150,
   },
   {
     accessorKey: "price",
@@ -81,7 +83,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm w-[100px] justify-start"
+          className="text-sm !px-0 justify-start"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Preço
@@ -94,10 +96,9 @@ export const ProductTableColumn = ({
       const formattedPrice = formatCurrencyBRL(price);
 
       return (
-        <p className="text-left p-3 text-primary w-[100px]">{formattedPrice}</p>
+        <p className="text-left text-primary max-w-[80px]">{formattedPrice}</p>
       );
     },
-    // size: 150,
   },
   {
     accessorKey: "category",
@@ -105,7 +106,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm w-[100px] justify-start"
+          className="text-sm !px-0 justify-start  max-w-[100px]"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Categoria
@@ -114,75 +115,34 @@ export const ProductTableColumn = ({
       );
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left p-3 text-primary w-[100px]">
+      <p className="capitalize text-left text-primary max-w-[100px]">
         {row.getValue("category")}
       </p>
     ),
-    // size: 150,
   },
   {
     accessorKey: "description",
     header: () => {
-      return <p className="text-sm w-64">Descrição</p>;
+      return <p>Descrição</p>;
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left truncate  w-64 overflow-hidden whitespace-nowrap text-primary">
+      <p className="capitalize text-left truncate text-wrap text-primary line-clamp-2">
         {row.getValue("description")}
       </p>
     ),
-    size: 200,
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <DropdownMenu>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="h-8 w-8 p-0 hover:cursor-pointer"
-                >
-                  <MoreHorizontal />
-                </Button>
-              </DropdownMenuTrigger>
-            </TooltipTrigger>
-            <TooltipContent align="start" className="text-xs">
-              <p>Ações</p>
-            </TooltipContent>
-          </Tooltip>
-
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuItem
-              className="hover:cursor-pointer font-light py-2"
-              onClick={() => onDetails(row.original._id)}
-            >
-              <Info /> Detalhes
-            </DropdownMenuItem>
-
-            <Separator />
-
-            <DropdownMenuItem
-              className="hover:cursor-pointer font-light py-2"
-              onClick={() => onEdit(row.original)}
-            >
-              <Edit /> Editar
-            </DropdownMenuItem>
-
-            <Separator />
-
-            <DropdownMenuItem
-              className="text-red-600 hover:cursor-pointer font-light py-2"
-              onClick={() => onDelete(row.original._id)}
-            >
-              <Trash2 /> Remover
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ProductTableActions
+          onDelete={onDelete}
+          onEdit={onEdit}
+          onDetails={onDetails}
+          row={row}
+        />
       );
     },
-    // size: 60,
   },
 ];

@@ -1,11 +1,15 @@
-import type { ReactNode } from "react";
+import Navbar from "@/components/Navbar/Navbar";
+import { Outlet } from "react-router-dom";
 
-type AppLayoutProps = {
-  children: ReactNode;
-};
-
-export default function AppLayout({ children }: AppLayoutProps): JSX.Element {
+export default function AppLayout(): JSX.Element {
   return (
-    <div className="flex min-h-screen">{children}</div>
+    <div className="flex min-h-screen">
+      <div className="flex flex-1 flex-col">
+        <Navbar />
+        <main className="flex-1 p-4">
+          <Outlet />
+        </main>
+      </div>
+    </div>
   );
 }

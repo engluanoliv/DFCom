@@ -64,8 +64,8 @@ export default function ProductTablePagination<TData>({
                 onClick={() => table.nextPage()}
                 className={
                   !table.getCanNextPage()
-                    ? "pointer-events-none opacity-50"
-                    : "hover:cursor-pointer"
+                    ? "pointer-events-none !pr-0 opacity-50"
+                    : "hover:cursor-pointer !pr-0"
                 }
               />
             </PaginationItem>

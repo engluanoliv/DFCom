@@ -58,19 +58,18 @@ export default function ProductTable<TData, TValue>({
   const pages = Array.from({ length: table.getPageCount() }, (_, i) => i);
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
-      <div className="overflow-hidden rounded-md border shadow">
+    <div className="w-full">
+      <div className="overflow-hidden rounded-md border shadow w-full">
         {/* Table of Products */}
         <Table>
-          {/* Table Header */}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="h-16" key={headerGroup.id}>
+              <TableRow className="h-12 bg-zinc-100" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      style={{ width: header.column.getSize() }}
+                      // style={{ width: header.column.getSize() }}
                     >
                       {header.isPlaceholder
                         ? null
@@ -85,19 +84,17 @@ export default function ProductTable<TData, TValue>({
             ))}
           </TableHeader>
 
-          {/* Table Body */}
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="h-16"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="h-14"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      style={{ width: cell.column.getSize() }}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -121,7 +118,7 @@ export default function ProductTable<TData, TValue>({
         </Table>
 
         {/* Footer + Pagination */}
-        <div className="flex items-center justify-between space-x-2 p-4  bg-card">
+        <div className="flex items-center justify-between space-x-2 p-4 bg-card">
           <div className="text-muted-foreground text-sm">
             {table.getFilteredSelectedRowModel().rows.length} de{" "}
             {table.getFilteredRowModel().rows.length} produto(s) selecionado(s).

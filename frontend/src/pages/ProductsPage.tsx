@@ -51,31 +51,27 @@ export default function ProductsPage() {
 
   return (
     <div className="flex flex-col gap-14 pt-28 max-w-5xl mx-auto">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-        <h1 className="text-4xl font-normal text-[#737373]">Produtos</h1>
-
-        {/* Buttons */}
-        <div className="flex gap-2 sm:self-end">
-          <Button
-            variant="destructive"
-            className="self-start hidden sm:flex"
-            onClick={handleDeleteSelectedRows}
-            disabled={!Object.keys(rowSelection).length}
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            Excluir selecionados
-          </Button>
-          <Button
-            className="w-fit bg-green-600"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Novo Produto
-          </Button>
-        </div>
+      {/* Buttons */}
+      <div className="flex gap-2 md:self-end items-center justify-end">
+        <Button
+          variant="destructive"
+          className="self-start hidden md:flex"
+          onClick={handleDeleteSelectedRows}
+          disabled={!Object.keys(rowSelection).length}
+        >
+          <Trash2 className="mr-2 h-4 w-4" />
+          Excluir selecionados
+        </Button>
+        <Button
+          className="w-fit bg-green-600"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Novo Produto
+        </Button>
       </div>
 
       {/* List Products for Desktop view */}
-      <div className="hidden sm:block">
+      <div className="hidden md:block w-full">
         <ProductTable
           data={products || []}
           columns={ProductTableColumn({
@@ -90,7 +86,7 @@ export default function ProductsPage() {
       </div>
 
       {/* List Products for mobile view */}
-      <div className="flex gap-4 flex-wrap sm:hidden">
+      <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:hidden">
         {products?.map((product) => (
           <ProductCard
             key={product._id}

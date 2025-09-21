@@ -32,45 +32,43 @@ export default function ProductCard({
   return (
     <>
       <Card className="mb-4 h-full flex flex-col justify-between">
-        <CardHeader className="pb-0">
-          <CardTitle className="text-base capitalize line-clamp-1">
+        <CardHeader className="pb-0 flex items-center justify-between flex-row">
+          <CardTitle className="text-base capitalize line-clamp-1 font-semibold self-start">
             {product.name}
           </CardTitle>
 
-          <CardAction>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <EllipsisVertical className="h-5 w-5 cursor-pointer" />
-              </DropdownMenuTrigger>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <EllipsisVertical className="h-5 w-5 cursor-pointer" />
+            </DropdownMenuTrigger>
 
-              <DropdownMenuContent align="end" className="w-44">
-                <DropdownMenuItem
-                  className="hover:cursor-pointer font-light py-2"
-                  onClick={() => onDetails(product._id)}
-                >
-                  <Info /> Detalhes
-                </DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuItem
+                className="hover:cursor-pointer font-light py-2"
+                onClick={() => onDetails(product._id)}
+              >
+                <Info /> Detalhes
+              </DropdownMenuItem>
 
-                <Separator />
+              <Separator />
 
-                <DropdownMenuItem
-                  className="hover:cursor-pointer font-light py-2"
-                  onClick={() => onEdit(product)}
-                >
-                  <Edit /> Editar
-                </DropdownMenuItem>
+              <DropdownMenuItem
+                className="hover:cursor-pointer font-light py-2"
+                onClick={() => onEdit(product)}
+              >
+                <Edit /> Editar
+              </DropdownMenuItem>
 
-                <Separator />
+              <Separator />
 
-                <DropdownMenuItem
-                  className="text-red-600 hover:cursor-pointer font-light py-2"
-                  onClick={() => onDelete(product._id)}
-                >
-                  <Trash2 /> Remover
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </CardAction>
+              <DropdownMenuItem
+                className="text-red-600 hover:cursor-pointer font-light py-2"
+                onClick={() => onDelete(product._id)}
+              >
+                <Trash2 /> Remover
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardHeader>
 
         <CardContent className="flex flex-col justify-between">
