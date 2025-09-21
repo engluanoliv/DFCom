@@ -1,5 +1,5 @@
-import api from "@/config/axios";
 import type { ReviewSchemaType } from "@/schemas/schemas";
+import { reviewService } from "@/services/reviewServices";
 import type { Review } from "@/types/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -12,9 +12,7 @@ export const useReviews = (productId?: string) => {
     if (!productId) return;
     setIsLoading(true);
     try {
-      const response = await api
-        .get(`/products/${productId}/reviews`)
-        .then((res) => res.data);
+      const response = await reviewService.getAll(productId);
       setReviews(response);
     } catch (error) {
       console.error("Failed to fetch reviews:", error);
@@ -28,10 +26,10 @@ export const useReviews = (productId?: string) => {
     if (!productId) return;
     try {
       if (review) {
-        await api.put(`/reviews/${review._id}`, values);
+        await reviewService.update(review, values);
         toast.success("Avaliação atualizada 📝");
       } else {
-        await api.post(`/products/${productId}/reviews`, values);
+        await reviewService.create(productId, values);
         toast.success("Avaliação criada 🥳");
       }
       await fetchReviews();
@@ -43,7 +41,7 @@ export const useReviews = (productId?: string) => {
 
   const handleDelete = async (reviewId: string) => {
     try {
-      await api.delete(`/reviews/${reviewId}`);
+      await reviewService.delete(reviewId);
       toast.success("Avaliação excluída 🗑️");
       await fetchReviews();
     } catch (error) {

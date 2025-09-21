@@ -1,5 +1,5 @@
-import api from "@/config/axios";
 import type { ProductSchemaType } from "@/schemas/schemas";
+import { productService } from "@/services/productServices";
 import type { Product } from "@/types/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -12,8 +12,8 @@ export const useProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await api.get("/products");
-      setProducts(response.data);
+      const response = await productService.getAll();
+      setProducts(response);
     } catch (error) {
       console.error("Failed to fetch products:", error);
       toast.error("Erro ao carregar produtos");
@@ -27,10 +27,10 @@ export const useProducts = () => {
   const handleSave = async (values: ProductSchemaType, product?: Product) => {
     try {
       if (product) {
-        await api.put(`/products/${product._id}`, values);
+        await productService.update(product._id, values);
         toast.success("Produto atualizado 📝");
       } else {
-        await api.post("/products", values);
+        await productService.create(values);
         toast.success("Produto criado 🥳");
       }
       fetchProducts();
@@ -44,7 +44,7 @@ export const useProducts = () => {
 
   const handleDelete = async (productId: string) => {
     try {
-      await api.delete(`/products/${productId}`);
+      await productService.delete(productId);
       fetchProducts();
       toast.success("Produto excluído 🎉");
     } catch (error) {
@@ -58,7 +58,7 @@ export const useProducts = () => {
       (key) => products[Number(key)]._id
     );
     try {
-      await Promise.all(selectedIds.map((id) => api.delete(`/products/${id}`)));
+      await productService.deleteMany(selectedIds);
       toast.success("Produtos excluídos 🎉");
       setRowSelection({});
       fetchProducts();
