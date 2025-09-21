@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useProducts } from "@/hooks/useProducts";
 import { useState } from "react";
 import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
+import EmptyCards from "@/components/ui/empty-cards";
+import EmptyState from "@/components/ui/empty-state";
 
 export default function ProductsPage() {
   const navigate = useNavigate();
@@ -51,19 +53,37 @@ export default function ProductsPage() {
 
   const hasProducts = products?.length > 0;
 
+  // if (!hasProducts) {
+  //   return (
+  //     <EmptyCards>
+  //       <EmptyState
+  //         className="-mt-32 md:-mt-48 relative"
+  //         emoji="📦"
+  //         title="Nenhum produto encontrado"
+  //         description="Ainda não existe produto cadastrado."
+  //       />
+  //     </EmptyCards>
+  //   );
+  // }
+
   return (
     <div className="flex flex-col gap-4 max-w-5xl mx-auto">
       {/* Buttons */}
       <div className="flex gap-2 md:self-end items-center justify-end">
-        <Button
-          variant="destructive"
-          className="self-start hidden md:flex  hover:cursor-pointer hover:bg-card"
-          onClick={handleDeleteSelectedRows}
-          disabled={!Object.keys(rowSelection).length}
-        >
-          <Trash2 className="mr-2 h-4 w-4" />
-          Excluir selecionados
-        </Button>
+        {/* Delete Multiple */}
+        {hasProducts && (
+          <Button
+            variant="destructive"
+            className="self-start hidden md:flex hover:cursor-pointer hover:bg-card"
+            onClick={handleDeleteSelectedRows}
+            disabled={!Object.keys(rowSelection).length}
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Excluir selecionados
+          </Button>
+        )}
+
+        {/* Add Product */}
         <Button
           className="bg-green-600 hover:cursor-pointer hover:bg-green-800 dark:text-zinc-50"
           onClick={() => setIsModalOpen(true)}
@@ -73,33 +93,49 @@ export default function ProductsPage() {
         </Button>
       </div>
 
+      {/* Empty state show a feedback message */}
+      {!hasProducts && (
+        <EmptyCards>
+          <EmptyState
+            className="-mt-32 md:-mt-48 relative"
+            emoji="📦"
+            title="Nenhum produto encontrado"
+            description="Ainda não existe produto cadastrado."
+          />
+        </EmptyCards>
+      )}
+
       {/* List Products for Desktop view */}
-      <div className="hidden md:block w-full">
-        <ProductTable
-          data={products || []}
-          columns={ProductTableColumn({
-            onEdit: handleEdit,
-            onDelete: handleDeleteProduct,
-            onDetails: handleDetails,
-            hasProducts,
-          })}
-          rowSelection={rowSelection}
-          onRowSelectionChange={setRowSelection}
-        />
-      </div>
+      {hasProducts && (
+        <div className="hidden md:block w-full">
+          <ProductTable
+            data={products || []}
+            columns={ProductTableColumn({
+              onEdit: handleEdit,
+              onDelete: handleDeleteProduct,
+              onDetails: handleDetails,
+              hasProducts,
+            })}
+            rowSelection={rowSelection}
+            onRowSelectionChange={setRowSelection}
+          />
+        </div>
+      )}
 
       {/* List Products for mobile view */}
-      <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:hidden">
-        {products?.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            onEdit={handleEdit}
-            onDelete={handleDeleteProduct}
-            onDetails={handleDetails}
-          />
-        ))}
-      </div>
+      {hasProducts && (
+        <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:hidden">
+          {products?.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              onEdit={handleEdit}
+              onDelete={handleDeleteProduct}
+              onDetails={handleDetails}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Modal to add or update Product */}
       <ProductModal
