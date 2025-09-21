@@ -1,12 +1,6 @@
 import type { Product } from "@/types/types";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { formatCurrencyBRL } from "@/utils/formatCurrency";
+import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+// import { formatCurrencyBRL } from "@/utils/formatCurrency";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,54 +25,58 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <>
-      <Card className="mb-4 h-full flex flex-col justify-between">
-        <CardHeader className="pb-0 flex items-center justify-between flex-row">
-          <CardTitle className="text-base capitalize line-clamp-1 font-semibold self-start">
-            {product.name}
-          </CardTitle>
+      <Card className="h-[150px] flex flex-col">
+        <CardHeader className="px-2 pt-2.5 pb-1">
+          <div className="flex gap-4 items-start text-left justify-between">
+            <p className="text-base capitalize line-clamp-2 font-semibold max-w-[250px] overflow-hidden">
+              {product.name}
+            </p>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <EllipsisVertical className="h-5 w-5 cursor-pointer" />
-            </DropdownMenuTrigger>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <EllipsisVertical className="h-5 w-5 cursor-pointer" />
+              </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuItem
-                className="hover:cursor-pointer font-light py-2"
-                onClick={() => onDetails(product._id)}
-              >
-                <Info /> Detalhes
-              </DropdownMenuItem>
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuItem
+                  className="hover:cursor-pointer font-light py-2"
+                  onClick={() => onDetails(product._id)}
+                >
+                  <Info /> Detalhes
+                </DropdownMenuItem>
 
-              <Separator />
+                <Separator />
 
-              <DropdownMenuItem
-                className="hover:cursor-pointer font-light py-2"
-                onClick={() => onEdit(product)}
-              >
-                <Edit /> Editar
-              </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="hover:cursor-pointer font-light py-2"
+                  onClick={() => onEdit(product)}
+                >
+                  <Edit /> Editar
+                </DropdownMenuItem>
 
-              <Separator />
+                <Separator />
 
-              <DropdownMenuItem
-                className="text-red-600 hover:cursor-pointer font-light py-2"
-                onClick={() => onDelete(product._id)}
-              >
-                <Trash2 /> Remover
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  className="text-red-600 hover:cursor-pointer font-light py-2"
+                  onClick={() => onDelete(product._id)}
+                >
+                  <Trash2 /> Remover
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </CardHeader>
 
-        <CardContent className="flex flex-col justify-between">
+        <CardContent className="flex flex-col items-start p-0 px-2 flex-1">
           <p className="text-base mb-2 truncate capitalize line-clamp-2">
             {product.description}
           </p>
-          <p className="font-bold text-base">
+          {/* <p className="font-bold text-base">
             {formatCurrencyBRL(product.price)}
-          </p>
+          </p> */}
         </CardContent>
+
+        <CardFooter className="capitalize px-3 mt-auto pb-3 text-xs text-gray-500">{product.category}</CardFooter>
       </Card>
     </>
   );
