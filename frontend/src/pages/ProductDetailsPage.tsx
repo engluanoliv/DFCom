@@ -1,19 +1,21 @@
+// import ProductCard from "@/components/ProductCard/ProductCard";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
 import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
 import EmptyCards from "@/components/ui/empty-cards";
 import EmptyState from "@/components/ui/empty-state";
-import { useProduct } from "@/hooks/useProduct";
+// import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { productId } = useParams();
-  const { product, averageRating } = useProduct(productId);
+  // const { product, averageRating } = useProduct(productId);
   const {
     reviews,
     isLoading: reviewsLoading,
@@ -59,19 +61,20 @@ export default function ProductDetailsPage(): JSX.Element {
 
   const hasReviews = reviews && reviews?.length > 0;
 
-  console.log(product, averageRating);
-
   return (
     <div className="flex flex-col gap-4">
-      {/* Product Details */}
-      <Button
-        onClick={() => handleOpenModal()}
-        className="bg-green-700 w-fit self-end sm:self-center hover:cursor-pointer"
-      >
-        Nova Avaliação
-      </Button>
+      <div className="flex items-center justify-between">
+        {/* Product Details */}
+        <Button
+          onClick={() => handleOpenModal()}
+          className="bg-green-700 w-fit self-end hover:cursor-pointer"
+        >
+          N<Plus className="sm:hidden" />
+          <span className="hidden sm:flex">Adicionar Produto</span>
+        </Button>
+      </div>
 
-      {/* Loading Review */}
+      {/*Empty Review */}
       {!hasReviews && (
         <div className="flex w-full justify-center">
           <EmptyCards isLoading={reviewsLoading}>
@@ -85,10 +88,10 @@ export default function ProductDetailsPage(): JSX.Element {
         </div>
       )}
 
-      <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {/* List of reviews */}
-        {hasReviews &&
-          reviews?.map((review) => (
+      {/* List of reviews */}
+      {hasReviews && (
+        <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {reviews?.map((review) => (
             <ReviewCard
               onDelete={handleDeleteReview}
               onEdit={handleEditReview}
@@ -96,7 +99,8 @@ export default function ProductDetailsPage(): JSX.Element {
               review={review}
             />
           ))}
-      </div>
+        </div>
+      )}
 
       {/* Review Modal */}
       {productId && (
