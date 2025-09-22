@@ -12,12 +12,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useEffect, useState } from "react";
 
 export default function Navbar(): JSX.Element {
   const { theme } = useTheme();
+  const [avatarUrl, setAvatarUrl] = useState("");
   const DICEBEAR_URL = import.meta.env.VITE_DICEBEAR_URL;
-  const randomSeed = Math.random().toString(36).substring(2, 10);
-  const avatarUrl = `${DICEBEAR_URL}?seed=${randomSeed}`;
+
+  useEffect(() => {
+    const seed = Math.random().toString(36).substring(2, 10);
+    setAvatarUrl(`${DICEBEAR_URL}?seed=${seed}`);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-12">

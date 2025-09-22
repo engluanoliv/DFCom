@@ -25,7 +25,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <>
-      <Card className="h-[150px] flex flex-col">
+      <Card className="h-[160px] flex flex-col">
         <CardHeader className="px-2 pt-2.5 pb-1">
           <div className="flex gap-4 items-start text-left justify-between">
             <p className="text-base capitalize line-clamp-2 font-semibold max-w-[250px] overflow-hidden">
@@ -68,7 +68,7 @@ export default function ProductCard({
         </CardHeader>
 
         <CardContent className="flex flex-col items-start p-0 px-2 flex-1">
-          <p className="text-sm text-wrap mb-2 truncate capitalize line-clamp-3 overflow-hidden text-left">
+          <p className="text-sm text-wrap truncate capitalize line-clamp-3 overflow-hidden text-left">
             {product.description}
           </p>
           {/* <p className="font-bold text-base">
