@@ -14,7 +14,12 @@ export const createReview = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    await createReviewService({ author, rating, comment, productId });
+    const newReview = await createReviewService({
+      author,
+      rating,
+      comment,
+      productId,
+    });
 
     res.status(200).json(newReview);
   } catch (error) {

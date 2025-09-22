@@ -37,7 +37,7 @@ export default function ReviewModalForm({
             name="author"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome do Autor</FormLabel>
+                <FormLabel>Nome</FormLabel>
                 <FormControl>
                   <Input placeholder="Seu nome" {...field} />
                 </FormControl>
