@@ -28,7 +28,7 @@ export default function ReviewCard({
   const avatarUrl = `${DICEBEAR_URL}?seed=${randomSeed}`;
   return (
     <>
-      <Card className="h-[190px] justify-self-center">
+      <Card className="h-[190px] w-full flex flex-col justify-between">
         <CardHeader className="px-2 pt-2.5 pb-1">
           <div className="flex gap-4 items-center text-left">
             <Avatar className="rounded-full size-16 border border-gray-200">
