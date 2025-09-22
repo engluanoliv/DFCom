@@ -49,7 +49,7 @@ export default function ProductTablePagination<TData>({
                   }}
                   className={
                     pageIndex === page
-                      ? "bg-primary text-white hover:cursor-pointer"
+                      ? "bg-background hover:cursor-pointer"
                       : undefined
                   }
                 >
