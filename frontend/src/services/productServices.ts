@@ -30,4 +30,11 @@ export const productService = {
   async deleteMany(productIds: string[]): Promise<void> {
     await Promise.all(productIds.map((id) => api.delete(`/products/${id}`)));
   },
+
+  async fetchAverageRating(
+    productId: string
+  ): Promise<{ averageRating: number; totalReviews: number }> {
+    const response = await api.get(`/products/${productId}/average-rating`);
+    return response.data;
+  },
 };

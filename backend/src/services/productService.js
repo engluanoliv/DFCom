@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import Review from "../models/Review.js";
 
@@ -30,7 +31,7 @@ export const deleteProductService = async (productId) => {
 
 export const getAverageRatingService = async (productId) => {
   const result = await Review.aggregate([
-    { $match: { productId: productId } },
+    { $match: { productId: new mongoose.Types.ObjectId(productId) } },
     {
       $group: {
         _id: "$productId",

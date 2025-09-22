@@ -1,4 +1,3 @@
-import Review from "../models/Review.js";
 import {
   createReviewService,
   deleteReviewService,

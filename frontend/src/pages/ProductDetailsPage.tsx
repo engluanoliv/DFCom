@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
 import EmptyCards from "@/components/ui/empty-cards";
 import EmptyState from "@/components/ui/empty-state";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { productId } = useParams();
-  console.log(productId);
+  const { product, averageRating } = useProduct(productId);
   const {
     reviews,
     isLoading: reviewsLoading,
@@ -58,6 +58,8 @@ export default function ProductDetailsPage(): JSX.Element {
   };
 
   const hasReviews = reviews && reviews?.length > 0;
+
+  console.log(product, averageRating);
 
   return (
     <div className="flex flex-col gap-4">

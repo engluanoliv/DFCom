@@ -8,7 +8,12 @@ export const useReviews = (productId?: string) => {
   const [reviews, setReviews] = useState<Review[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchReviews = async () => {
+  useEffect(() => {
+    if (!productId) return;
+    fetchReviews(productId);
+  }, [productId]);
+
+  const fetchReviews = async (productId: string) => {
     if (!productId) return;
     setIsLoading(true);
     try {
@@ -32,7 +37,7 @@ export const useReviews = (productId?: string) => {
         await reviewService.create(productId, values);
         toast.success("Avaliação criada 🥳");
       }
-      await fetchReviews();
+      await fetchReviews(productId);
     } catch (error) {
       console.error(error);
       toast.error("Erro ao salvar avaliação");
@@ -42,17 +47,13 @@ export const useReviews = (productId?: string) => {
   const handleDelete = async (reviewId: string) => {
     try {
       await reviewService.delete(reviewId);
+      setReviews((prev) => (prev ?? []).filter((r) => r._id !== reviewId));
       toast.success("Avaliação excluída 🗑️");
-      await fetchReviews();
     } catch (error) {
       console.error(error);
       toast.error("Erro ao excluir avaliação");
     }
   };
-
-  useEffect(() => {
-    fetchReviews();
-  }, [productId]);
 
   return { reviews, isLoading, fetchReviews, handleSave, handleDelete };
 };
