@@ -11,7 +11,7 @@ type EmptyStateProps = {
 
 export default function EmptyState({
   className,
-  emoji,
+  emoji = '🙂',
   title,
   description,
   children,
@@ -19,7 +19,7 @@ export default function EmptyState({
   return (
     <div className={cn("flex justify-center rounded-md", className)}>
       <div className="max-w-2xl">
-        <div className="grid space-y-4 p-8 text-center">{emoji}</div>
+        <div className="grid space-y-4 p-4 text-center"><p className="text-4xl">{emoji}</p></div>
         <div className="grid space-y-1">
           <h1 className="font-medium text-foreground text-lg">{title}</h1>
 

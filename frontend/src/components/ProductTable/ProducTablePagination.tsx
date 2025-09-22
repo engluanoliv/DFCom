@@ -41,6 +41,7 @@ export default function ProductTablePagination<TData>({
             {pages.map((page) => (
               <PaginationItem key={page}>
                 <PaginationLink
+                  isActive={pageIndex === page}
                   size="sm"
                   onClick={(e) => {
                     e.preventDefault();
@@ -49,7 +50,7 @@ export default function ProductTablePagination<TData>({
                   }}
                   className={
                     pageIndex === page
-                      ? "bg-primary text-white hover:cursor-pointer"
+                      ? "hover:cursor-pointer"
                       : undefined
                   }
                 >

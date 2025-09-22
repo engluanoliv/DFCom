@@ -2,8 +2,9 @@ import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
 import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
+import EmptyCards from "@/components/ui/empty-cards";
+import EmptyState from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
-// import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
@@ -11,14 +12,14 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function ProductDetailsPage(): JSX.Element {
-  const { id } = useParams();
-  // const { product, isLoading } = useProduct(id ?? "");
+  const { productId } = useParams();
+  console.log(productId);
   const {
     reviews,
     isLoading: reviewsLoading,
     handleSave,
     handleDelete,
-  } = useReviews(id);
+  } = useReviews(productId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewId, setReviewId] = useState<string | null>(null);
@@ -56,29 +57,35 @@ export default function ProductDetailsPage(): JSX.Element {
     setIsAlertOpen(false);
   };
 
+  const hasReviews = reviews && reviews?.length > 0;
+
   return (
     <div className="flex flex-col gap-4">
       {/* Product Details */}
       <Button
         onClick={() => handleOpenModal()}
-        className="bg-green-700 w-fit self-end sm:self-center"
+        className="bg-green-700 w-fit self-end sm:self-center hover:cursor-pointer"
       >
         Nova Avaliação
       </Button>
 
-      {/* List of Reviews */}
+      {/* Loading Review */}
+      {!hasReviews && (
+        <div className="flex w-full justify-center">
+          <EmptyCards isLoading={reviewsLoading}>
+            <EmptyState
+              className="-mt-32 md:-mt-48 relative"
+              emoji="💭"
+              title="Nenhuma Avaliação para o produto"
+              description="Ainda não existe avaliações para este produto."
+            />
+          </EmptyCards>
+        </div>
+      )}
+
       <div className="w-full lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {reviewsLoading ? (
-          Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton className="h-[190px]" key={index} />
-          ))
-        ) : reviews?.length === 0 ? (
-          <div className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 min-h-[200px] flex items-center justify-center">
-            <p className="text-center font-semibold text-lg">
-              Nenhuma avaliação ainda.
-            </p>
-          </div>
-        ) : (
+        {/* List of reviews */}
+        {hasReviews &&
           reviews?.map((review) => (
             <ReviewCard
               onDelete={handleDeleteReview}
@@ -86,16 +93,15 @@ export default function ProductDetailsPage(): JSX.Element {
               key={review?._id}
               review={review}
             />
-          ))
-        )}
+          ))}
       </div>
 
       {/* Review Modal */}
-      {id && (
+      {productId && (
         <ReviewModal
           isOpen={isModalOpen}
           onOpenChange={setIsModalOpen}
-          productId={id}
+          productId={productId}
           onSave={handleSaveReview}
           review={selectedReview}
         />
