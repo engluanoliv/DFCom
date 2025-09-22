@@ -1,11 +1,11 @@
-// import ProductCard from "@/components/ProductCard/ProductCard";
 import ReviewCard from "@/components/ReviewCard/ReviewCard";
 import ReviewModal from "@/components/ReviewModal/ReviewModal";
 import { Button } from "@/components/ui/button";
 import ConfirmDeleteModal from "@/components/ui/confirm-delete-dialog";
 import EmptyCards from "@/components/ui/empty-cards";
 import EmptyState from "@/components/ui/empty-state";
-// import { useProduct } from "@/hooks/useProduct";
+import { StarRating } from "@/components/ui/star-rating";
+import { useProduct } from "@/hooks/useProduct";
 import { useReviews } from "@/hooks/useReviews";
 import type { ReviewSchemaType } from "@/schemas/schemas";
 import type { Review } from "@/types/types";
@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 
 export default function ProductDetailsPage(): JSX.Element {
   const { productId } = useParams();
-  // const { product, averageRating } = useProduct(productId);
+  const { product, averageRating } = useProduct(productId);
   const {
     reviews,
     isLoading: reviewsLoading,
@@ -64,12 +64,19 @@ export default function ProductDetailsPage(): JSX.Element {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
+        <div className="text-left flex flex-col gap-2">
+          <div className="line-clamp-1">
+            <p className="font-semibold text-2xl">{product?.name}</p>
+          </div>
+          <StarRating rating={averageRating} />
+          <p className="text-base font-semibold">{averageRating} de 5</p>
+        </div>
         {/* Product Details */}
         <Button
           onClick={() => handleOpenModal()}
           className="bg-green-700 w-fit self-end hover:cursor-pointer"
         >
-          N<Plus className="sm:hidden" />
+          <Plus className="sm:hidden" />
           <span className="hidden sm:flex">Adicionar Produto</span>
         </Button>
       </div>
