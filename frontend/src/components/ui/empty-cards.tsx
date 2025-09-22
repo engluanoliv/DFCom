@@ -13,7 +13,7 @@ export default function EmptyCards({
   children,
 }: EmptyCardProps): JSX.Element {
   return (
-    <div className="relative pt-4">
+    <div className="relative pt-4 w-full">
       <div className="relative">
         <div className="grid grid-cols-2 gap-x-4 md:grid-cols-3 xl:grid-cols-5">
           {Array.from({ length }).map((_, index) => (
