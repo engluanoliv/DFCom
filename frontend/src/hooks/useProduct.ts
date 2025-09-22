@@ -1,26 +1,23 @@
 import { productService } from "@/services/productServices";
-import { reviewService } from "@/services/reviewServices";
-import type { Product, Review } from "@/types/types";
+import type { Product } from "@/types/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export const useProduct = (id: string) => {
+export const useProduct = (id: string | undefined) => {
   const [product, setProduct] = useState<Product | null>(null);
-  const [reviews, setReviews] = useState<Review[] | null>(null);
-  const [reviewsLoading, setReviewsLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     if (!id) {
-      setIsLoading(false);
-      setReviewsLoading(false);
       return;
     }
     fetchProductDetails(id);
-    fetchProductReviews(id);
+    fetchProductAverageRating(id);
   }, [id]);
 
-  // AQUI EU PODERIA TRAZER OS REVIEWS JUNTO COM AS INFORMACOES DO PRODUTO, MAS ESCOLHI FAZER A REQUISIÇÃO SEPARADA
   const fetchProductDetails = async (productId: string) => {
     setIsLoading(true);
     try {
@@ -34,19 +31,23 @@ export const useProduct = (id: string) => {
     }
   };
 
-  // REQUISIÇÃO SEPARADA PARA FAZER O FETCH NOS REVIEWS
-  const fetchProductReviews = async (productId: string) => {
-    setReviewsLoading(true);
+  const fetchProductAverageRating = async (productId: string) => {
     try {
-      const response = await reviewService.getAll(productId);
-      setReviews(response);
+      const response = await productService.fetchAverageRating(productId);
+      setAverageRating(response.averageRating || 0);
+      setTotalReviews(response.totalReviews || 0);
     } catch (error) {
-      console.error("Failed to fetch reviews:", error);
-      toast.error("Erro ao carregar avaliações");
-    } finally {
-      setReviewsLoading(false);
+      console.error("Failed to fetch average rating:", error);
+      toast.error("Erro ao calcular avaliação média");
     }
   };
 
-  return { product, reviews, isLoading, reviewsLoading, fetchProductReviews };
+  return {
+    product,
+    isLoading,
+    averageRating,
+    totalReviews,
+    fetchProductDetails,
+    fetchProductAverageRating,
+  };
 };
