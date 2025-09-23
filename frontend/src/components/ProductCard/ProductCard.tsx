@@ -9,23 +9,26 @@ import {
 } from "../ui/dropdown-menu";
 import { Edit, EllipsisVertical, Info, Trash2 } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { useNavigate } from "react-router-dom";
 
 type ProductCardProps = {
   product: Product;
   onEdit: (product: Product) => void;
-  onDetails: (productId: string) => void;
   onDelete: (productId: string) => void;
 };
 
 export default function ProductCard({
   product,
   onDelete,
-  onDetails,
   onEdit,
 }: ProductCardProps) {
+  const navigate = useNavigate();
   return (
     <>
-      <Card className="h-[160px] flex flex-col">
+      <Card
+        className="h-[160px] flex flex-col"
+        // onClick={() => navigate(`/products/${product._id}`)}
+      >
         <CardHeader className="px-2 pt-2.5 pb-1">
           <div className="flex gap-4 items-start text-left justify-between">
             <p className="text-base capitalize line-clamp-2 font-semibold max-w-[250px] overflow-hidden">
@@ -40,7 +43,7 @@ export default function ProductCard({
               <DropdownMenuContent align="end" className="w-44">
                 <DropdownMenuItem
                   className="hover:cursor-pointer font-light py-2"
-                  onClick={() => onDetails(product._id)}
+                  onClick={() => navigate(`/products/${product._id}`)}
                 >
                   <Info /> Detalhes
                 </DropdownMenuItem>
@@ -76,7 +79,9 @@ export default function ProductCard({
           </p> */}
         </CardContent>
 
-        <CardFooter className="capitalize px-3 mt-auto pb-3 text-xs text-gray-500">{product.category}</CardFooter>
+        <CardFooter className="capitalize px-3 mt-auto pb-3 text-xs text-gray-500">
+          {product.category}
+        </CardFooter>
       </Card>
     </>
   );

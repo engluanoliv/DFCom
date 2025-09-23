@@ -10,10 +10,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import type { Product } from "@/types/types";
 import type { Row } from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
 
 type ProductTableActionsProps = {
   row: Row<Product>;
-  onDetails: (productId: string) => void;
   onEdit: (product: Product) => void;
   onDelete: (productId: string) => void;
 };
@@ -21,9 +21,9 @@ type ProductTableActionsProps = {
 export default function ProductTableActions({
   row,
   onDelete,
-  onDetails,
   onEdit,
 }: ProductTableActionsProps): JSX.Element {
+  const navigate = useNavigate();
   return (
     <DropdownMenu>
       <Tooltip>
@@ -45,7 +45,7 @@ export default function ProductTableActions({
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem
           className="hover:cursor-pointer font-light py-2"
-          onClick={() => onDetails(row.original._id)}
+          onClick={() => navigate(`/products/${row.original._id}`)}
         >
           <Info /> Detalhes
         </DropdownMenuItem>

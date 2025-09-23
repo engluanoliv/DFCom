@@ -28,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
+import ProductTableToolbar from "./ProductTableToolbar";
 
 type ProductTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -82,49 +83,7 @@ export default function ProductTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-
-        {/* Filter table */}
-        <Input
-          placeholder="Filtrar Produtos..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-
-        {/* Show|Hide columns */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Colunas
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                const header = column.columnDef.header;
-                console.log(header)
-                const label = typeof header === "string" ? header : column.id;
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {label}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <ProductTableToolbar table={table} />
 
       <div className="overflow-hidden rounded-md border shadow w-full">
         {/* Table of Products */}

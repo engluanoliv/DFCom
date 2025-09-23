@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { ReactNode, JSX } from "react";
+import type { ReactNode } from "react";
 
 type EmptyCardProps = {
   length?: number;

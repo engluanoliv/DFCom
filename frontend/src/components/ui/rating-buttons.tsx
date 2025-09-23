@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
-import type { JSX } from "react";
 
 type RatingButtonProps = {
   rating: number;

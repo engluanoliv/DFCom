@@ -9,14 +9,12 @@ import ProductTableActions from "./ProductTableActions";
 type ProductTableColumnProps = {
   onEdit: (product: Product) => void;
   onDelete: (productId: string) => void;
-  onDetails: (productId: string) => void;
   hasProducts: boolean;
 };
 
 export const ProductTableColumn = ({
   onEdit,
   onDelete,
-  onDetails,
   hasProducts,
 }: ProductTableColumnProps): ColumnDef<Product>[] => [
   {
@@ -88,7 +86,9 @@ export const ProductTableColumn = ({
       const formattedPrice = formatCurrencyBRL(price);
 
       return (
-        <p className="text-left text-primary max-w-[80px] px-3">{formattedPrice}</p>
+        <p className="text-left text-primary max-w-[80px] px-3">
+          {formattedPrice}
+        </p>
       );
     },
   },
@@ -128,12 +128,7 @@ export const ProductTableColumn = ({
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <ProductTableActions
-          onDelete={onDelete}
-          onEdit={onEdit}
-          onDetails={onDetails}
-          row={row}
-        />
+        <ProductTableActions onDelete={onDelete} onEdit={onEdit} row={row} />
       );
     },
   },

@@ -36,9 +36,6 @@ export default function ProductsPage() {
         setSelectedProduct(product);
         setIsModalOpen(true);
       },
-      onDetails: (productId: string) => {
-        navigate(`/products/${productId}`);
-      },
       onDelete: (productId: string) => {
         setProductId(productId);
         setIsAlertOpen(true);
