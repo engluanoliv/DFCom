@@ -24,6 +24,8 @@ export default function Navbar(): JSX.Element {
     setAvatarUrl(`${DICEBEAR_URL}?seed=${seed}`);
   }, []);
 
+  console.log(avatarUrl);
+
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-12">
       {/* Image | Brand */}

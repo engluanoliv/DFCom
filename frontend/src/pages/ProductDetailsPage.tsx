@@ -63,7 +63,7 @@ export default function ProductDetailsPage(): JSX.Element {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between lg:px-8">
         <div className="text-left flex flex-col gap-2">
           <div className="line-clamp-1">
             <p className="font-semibold text-2xl">{product?.name}</p>
@@ -77,7 +77,7 @@ export default function ProductDetailsPage(): JSX.Element {
           className="bg-green-700 w-fit self-end hover:cursor-pointer"
         >
           <Plus className="sm:hidden" />
-          <span className="hidden sm:flex">Adicionar Produto</span>
+          <span className="hidden sm:flex">Avaliar Produto</span>
         </Button>
       </div>
 

@@ -48,11 +48,7 @@ export default function ProductTablePagination<TData>({
                     table.setPageIndex(page);
                     setPageIndex(page);
                   }}
-                  className={
-                    pageIndex === page
-                      ? "hover:cursor-pointer"
-                      : undefined
-                  }
+                  className="hover:cursor-pointer"
                 >
                   {page + 1}
                 </PaginationLink>
@@ -65,7 +61,7 @@ export default function ProductTablePagination<TData>({
                 onClick={() => table.nextPage()}
                 className={
                   !table.getCanNextPage()
-                    ? "pointer-events-none !pr-0 opacity-50"
+                    ? "pointer-events-none !pr-0 opacity-50 hover:cursor-pointer"
                     : "hover:cursor-pointer !pr-0"
                 }
               />

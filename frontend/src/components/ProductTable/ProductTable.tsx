@@ -10,13 +10,24 @@ import {
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
+  type ColumnFiltersState,
   type SortingState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import ProductTablePagination from "./ProducTablePagination";
+import { Input } from "../ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 type ProductTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -34,7 +45,10 @@ export default function ProductTable<TData, TValue>({
   const [pageSize] = useState(5);
   const [pageIndex, setPageIndex] = useState(0);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+  // Table Configurations
   const table = useReactTable({
     data,
     columns,
@@ -47,24 +61,80 @@ export default function ProductTable<TData, TValue>({
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     pageCount: Math.ceil(data.length / pageSize),
     enableRowSelection: true,
     onRowSelectionChange,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    state: { pagination: { pageIndex, pageSize }, rowSelection, sorting },
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      pagination: { pageIndex, pageSize },
+      rowSelection,
+      sorting,
+      columnFilters,
+      columnVisibility,
+    },
   });
 
   const pages = Array.from({ length: table.getPageCount() }, (_, i) => i);
 
   return (
     <div className="w-full">
+      <div className="flex items-center py-4">
+
+        {/* Filter table */}
+        <Input
+          placeholder="Filtrar Produtos..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+
+        {/* Show|Hide columns */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Colunas
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                const header = column.columnDef.header;
+                console.log(header)
+                const label = typeof header === "string" ? header : column.id;
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {label}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       <div className="overflow-hidden rounded-md border shadow w-full">
         {/* Table of Products */}
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="h-12 bg-zinc-100 dark:bg-card" key={headerGroup.id}>
+              <TableRow
+                className="h-12 bg-zinc-100 dark:bg-card"
+                key={headerGroup.id}
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
@@ -93,9 +163,7 @@ export default function ProductTable<TData, TValue>({
                   className="h-14"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                    >
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
