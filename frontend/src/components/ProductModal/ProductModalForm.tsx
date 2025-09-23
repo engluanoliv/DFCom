@@ -1,6 +1,11 @@
-import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
+import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { NumericFormat } from "react-number-format";
+import { PRODUCT_CATEGORIES } from "@/constants/categories";
+import type { ProductSchemaType } from "@/schemas/schemas";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { type SubmitHandler, type UseFormReturn } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -9,8 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
@@ -19,8 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import type { ProductSchemaType } from "@/schemas/schemas";
-import { PRODUCT_CATEGORIES } from "@/constants/categories";
 
 type ProductModalFormProps = {
   form: UseFormReturn<ProductSchemaType>;
@@ -60,11 +61,19 @@ export default function ProductModalForm({
             <FormItem>
               <FormLabel>Preço</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
+                <NumericFormat
+                  customInput={Input}
+                  value={field.value}
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="R$ "
+                  decimalScale={2}
+                  fixedDecimalScale
+                  allowNegative={false}
                   placeholder="Preço"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  onValueChange={(values) => {
+                    field.onChange(values.floatValue);
+                  }}
                 />
               </FormControl>
               <FormMessage>{form.formState.errors.price?.message}</FormMessage>

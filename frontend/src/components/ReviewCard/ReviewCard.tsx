@@ -2,15 +2,10 @@ import type { Review } from "@/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardAction, CardContent, CardHeader } from "../ui/card";
 import { StarRating } from "../ui/star-rating";
-import { Calendar, Edit, EllipsisVertical, Trash2 } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { formatDateBR } from "@/utils/formatDate";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { Skeleton } from "../ui/skeleton";
+import ReviewCardActions from "./ReviewCardActions";
 
 type ReviewCardProps = {
   review: Review;
@@ -43,27 +38,12 @@ export default function ReviewCard({
             </div>
           </div>
 
-          {/* Actions */}
           <CardAction>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="hover:cursor-pointer">
-                <EllipsisVertical className="h-5 w-5" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  className="hover:cursor-pointer font-light py-2"
-                  onClick={() => onEdit(review)}
-                >
-                  <Edit /> Editar
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="text-red-600 hover:cursor-pointer font-light py-2"
-                  onClick={() => onDelete(review._id)}
-                >
-                  <Trash2 /> Remover
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <ReviewCardActions
+              review={review}
+              onDelete={onDelete}
+              onEdit={onEdit}
+            />
           </CardAction>
         </CardHeader>
 

@@ -114,8 +114,17 @@ export const ProductTableColumn = ({
   },
   {
     accessorKey: "description",
-    header: () => {
-      return <p>Descrição</p>;
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-sm justify-start"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Descrição
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => (
       <p className="capitalize text-left truncate text-wrap text-primary line-clamp-2">

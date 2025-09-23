@@ -16,7 +16,7 @@ createRoot(rootElement).render(
       <ThemeProvider>
         <BrowserRouter>
           <AppRoutes />
-          <Toaster />
+          <Toaster position="top-center" />
         </BrowserRouter>
       </ThemeProvider>
     </TooltipProvider>
