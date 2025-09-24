@@ -2,9 +2,9 @@ import { Button } from "../ui/button";
 import ThemeToggle from "../ui/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
-import { BellDot, LogOut, Search, Settings2, User } from "lucide-react";
+import { BellDot, LogOut, Menu, Search, Settings2, User } from "lucide-react";
 import { useEffect, useState } from "react";
-import { SidebarTrigger } from "../ui/sidebar";
+import { SidebarTrigger, useSidebar } from "../ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +14,7 @@ import {
 } from "../ui/dropdown-menu";
 
 export default function Navbar(): JSX.Element {
+  const { isMobile, toggleSidebar } = useSidebar();
   const [avatarUrl, setAvatarUrl] = useState("");
   const DICEBEAR_URL = import.meta.env.VITE_DICEBEAR_URL;
 
@@ -23,7 +24,12 @@ export default function Navbar(): JSX.Element {
   }, [DICEBEAR_URL]);
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b px-4 md:px-12">
-      <SidebarTrigger className="absolute -left-2 hover:cursor-pointer" />
+      {/* <SidebarTrigger className="absolute -left-2 hover:cursor-pointer" /> */}
+      {isMobile ? (
+        <Menu className="hover:cursor-pointer" onClick={toggleSidebar}  />
+      ) : (
+        <SidebarTrigger className="absolute -left-2 hover:cursor-pointer" />
+      )}
 
       {/* Buttons */}
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">

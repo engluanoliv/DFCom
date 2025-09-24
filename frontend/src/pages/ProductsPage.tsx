@@ -56,28 +56,31 @@ export default function ProductsPage() {
   return (
     <div className="flex flex-col gap-4 max-w-5xl mx-auto">
       {/* Buttons */}
-      <div className="flex gap-2 md:self-end items-center justify-end">
-        {/* Delete Multiple */}
-        {hasProducts && (
-          <Button
-            variant="destructive"
-            className="self-start hidden md:flex hover:cursor-pointer"
-            onClick={handleDeleteSelectedRows}
-            disabled={!Object.keys(rowSelection).length}
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            Excluir selecionados
-          </Button>
-        )}
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl">Produtos</h1>
+        <div className="flex gap-2 md:self-end items-center">
+          {/* Delete Multiple */}
+          {hasProducts && (
+            <Button
+              variant="destructive"
+              className="self-start hidden md:flex hover:cursor-pointer"
+              onClick={handleDeleteSelectedRows}
+              disabled={!Object.keys(rowSelection).length}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Excluir selecionados
+            </Button>
+          )}
 
-        {/* Add Product */}
-        <Button
-          className="bg-green-600 hover:cursor-pointer hover:bg-green-600/80 dark:text-zinc-50"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <Plus className="md:hidden" />
-          <span className="hidden md:flex">Adicionar Produto</span>
-        </Button>
+          {/* Add Product */}
+          <Button
+            className="bg-green-600 hover:cursor-pointer hover:bg-green-600/80 dark:text-zinc-50"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <Plus className="md:hidden" />
+            <span className="hidden md:flex">Adicionar Produto</span>
+          </Button>
+        </div>
       </div>
 
       {/* Empty state show a feedback message */}
