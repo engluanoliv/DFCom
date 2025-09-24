@@ -2,9 +2,9 @@ import { Button } from "../ui/button";
 import ThemeToggle from "../ui/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
-import { useTheme } from "@/providers/theme-provider";
 import { BellDot, LogOut, Search, Settings2, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { SidebarTrigger } from "../ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,30 +12,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useEffect, useState } from "react";
 
 export default function Navbar(): JSX.Element {
-  const { theme } = useTheme();
   const [avatarUrl, setAvatarUrl] = useState("");
   const DICEBEAR_URL = import.meta.env.VITE_DICEBEAR_URL;
 
   useEffect(() => {
     const seed = Math.random().toString(36).substring(2, 10);
     setAvatarUrl(`${DICEBEAR_URL}?seed=${seed}`);
-  }, []);
-
+  }, [DICEBEAR_URL]);
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-12">
-      {/* Image | Brand */}
-      <nav className="flex flex-row items-center gap-5">
-        <Link to="/">
-          <img
-            src={theme === "dark" ? "/brand.svg" : "/brand-dark.svg"}
-            alt="DFCom"
-          />
-        </Link>
-      </nav>
+    <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b px-4 md:px-12">
+      <SidebarTrigger className="absolute -left-2 hover:cursor-pointer" />
 
+      {/* Buttons */}
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <div className="ml-auto flex-1 md:grow-0" />
 

@@ -20,14 +20,6 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import ProductTablePagination from "./ProducTablePagination";
-import { Input } from "../ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
 import ProductTableToolbar from "./ProductTableToolbar";
 
 type ProductTableProps<TData, TValue> = {
@@ -98,7 +90,6 @@ export default function ProductTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      // style={{ width: header.column.getSize() }}
                     >
                       {header.isPlaceholder
                         ? null

@@ -53,7 +53,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm justify-start"
+          className="text-sm justify-start !px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nome
@@ -62,7 +62,7 @@ export const ProductTableColumn = ({
       );
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left text-sm font-semibold justify-start truncate text-wrap line-clamp-2 text-primary px-3">
+      <p className="capitalize text-left text-sm font-semibold justify-start truncate text-wrap line-clamp-2 text-primary">
         {row.getValue("name")}
       </p>
     ),
@@ -73,7 +73,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm justify-start"
+          className="text-sm justify-start !px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Preço
@@ -86,7 +86,7 @@ export const ProductTableColumn = ({
       const formattedPrice = formatCurrencyBRL(price);
 
       return (
-        <p className="text-left text-primary max-w-[80px] px-3">
+        <p className="text-left text-primary max-w-[80px] text-wrap truncate line-clamp-1 flex">
           {formattedPrice}
         </p>
       );
@@ -98,7 +98,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm justify-start  max-w-[150px]"
+          className="text-sm justify-start  max-w-[100px] !px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Categoria
@@ -107,7 +107,7 @@ export const ProductTableColumn = ({
       );
     },
     cell: ({ row }) => (
-      <p className="capitalize text-left text-primary max-w-[150px] px-3">
+      <p className="capitalize text-left text-primary max-w-[100px] text-wrap truncate line-clamp-1 flex">
         {row.getValue("category")}
       </p>
     ),
@@ -118,7 +118,7 @@ export const ProductTableColumn = ({
       return (
         <Button
           variant="ghost"
-          className="text-sm justify-start"
+          className="text-sm justify-start !px-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Descrição

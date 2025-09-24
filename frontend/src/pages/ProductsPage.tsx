@@ -75,8 +75,8 @@ export default function ProductsPage() {
           className="bg-green-600 hover:cursor-pointer hover:bg-green-600/80 dark:text-zinc-50"
           onClick={() => setIsModalOpen(true)}
         >
-          <Plus className="sm:hidden" />
-          <span className="hidden sm:flex">Adicionar Produto</span>
+          <Plus className="md:hidden" />
+          <span className="hidden md:flex">Adicionar Produto</span>
         </Button>
       </div>
 

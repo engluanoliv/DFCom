@@ -31,7 +31,7 @@ export default function ProductTableActions({
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="h-8 w-8 p-0 hover:cursor-pointer"
+              className="h-8 w-8 p-0 hover:cursor-pointer !px-0"
             >
               <MoreHorizontal />
             </Button>
